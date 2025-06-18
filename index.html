@@ -1,0 +1,1633 @@
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Hunyuan-GameCraft</title>
+    <meta name="description" content="Hunyuan-GameCraft">
+    <meta name="keywords" content="Video Generation, Image Generation, Diffusion Transformer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#9ACBD0">
+    <meta property="og:image" content="">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/academicons.min.css">
+    <link rel="shortcut icon" href="assets/logos/logo.png" type="image/x-icon">
+    <script src="assets/js/jquery-1.12.4.min.js"></script>
+
+    <script src="assets/js/jquery.event.move.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/twentytwenty.css" />
+    <script src="assets/js/jquery.twentytwenty.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Tencent';
+            font-style: normal;
+            src: url('./assets/fonts/TencentSans-W3.ttf');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* 添加twentytwenty容器的默认样式，确保初始加载时不会崩塌 */
+        .twentytwenty-container {
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            /* 默认最小高度，避免空白 */
+        }
+
+        .twentytwenty-container img {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* 确保图片加载前就预留空间 */
+        .prompt-wrap.full-screen-wrap .twentytwenty-container {
+            width: 100%;
+            position: relative;
+        }
+
+        /* 为比较容器添加加载状态样式 */
+        .twentytwenty-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .twentytwenty-container.loading::before {
+            opacity: 1;
+        }
+
+        video {
+            background-color: #000000;
+            aspect-ratio: 16 / 9;
+        }
+
+        section.portrait video {
+            background-color: #000000;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+        }
+
+        section.portrait .prompt-wrap.full-screen-wrap video {
+            object-fit: cover;
+        }
+
+        section.portrait .flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        section.portrait2 .flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+
+        section.portrait .flex>div {
+            flex: 0 0 calc((100% - 5 * 10px) / 6);
+        }
+
+        section.portrait2 .flex>div {
+            flex: 0 0 calc((100% - 1 * 10px) / 2);
+        }
+
+        section.portrait .prompt {
+            font-size: 10px;
+        }
+
+        section.portrait2 .prompt {
+            font-size: 12px;
+        }
+
+        section.portrait .flex-row {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        section.portrait2 .flex-row {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            section.portrait .flex>div {
+                flex: 0 0 calc((100% - 1 * 10px) / 2);
+            }
+        }
+
+        @media (max-width: 768px) {
+            section.portrait2 .flex>div {
+                flex: 0 0 calc((100% - 0 * 10px) / 1);
+            }
+        }
+
+        /* Ensure prompt adjusts for portrait mode */
+        .portrait .prompt {
+            position: absolute;
+            /* Allow positioning relative to the container */
+            bottom: 5%;
+            /* Adjust this to control the vertical placement of the prompt */
+            left: 50%;
+            /* Center horizontally */
+            transform: translateX(-50%);
+            /* Offset by 50% of its width to truly center */
+            max-width: 80%;
+            text-align: center;
+            /* Center the text inside the prompt */
+            color: white;
+            /* Optional, if you want the text to stand out */
+            font-size: 1.2em;
+            /* Optional, adjust the text size */
+        }
+
+        .portrait2 .prompt {
+            position: absolute;
+            /* Allow positioning relative to the container */
+            bottom: 5%;
+            /* Adjust this to control the vertical placement of the prompt */
+            left: 50%;
+            /* Center horizontally */
+            transform: translateX(-50%);
+            /* Offset by 50% of its width to truly center */
+            max-width: 80%;
+            text-align: center;
+            /* Center the text inside the prompt */
+            color: white;
+            /* Optional, if you want the text to stand out */
+            font-size: 1.2em;
+            /* Optional, adjust the text size */
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: "Tencent", sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        #intro {
+            padding: 140px 0 80px 0;
+            justify-content: center;
+            /* Center content vertically */
+            text-align: center;
+            /* Center text alignment */
+        }
+
+        #intro h1 {
+            font-size: 80px;
+            font-weight: 300;
+            margin: 20px 0;
+        }
+
+        #intro h2 {
+            margin: 20px 0 40px 0;
+            font-weight: 300;
+            color: #ccc
+        }
+
+        #intro h2 strong {
+            color: #fff;
+        }
+
+        .authors {
+            font-size: 18px;
+            font-weight: 300;
+            color: #bbb;
+            text-align: center;
+            margin-bottom: 25px;
+            width: 70%;
+            /* More compact */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .author-block {
+            display: inline-block;
+            margin: 0 10px 0 10px;
+        }
+
+        .author-block a {
+            color: #d1d1d1;
+            /* Lighter color for links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .author-block a:hover {
+            color: #fff;
+            /* Hover effect */
+        }
+
+        .author-affiliation {
+            font-size: 16px;
+            color: #bbb;
+            text-align: center;
+            margin-bottom: 60px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .author-affiliation .author-block {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        section {
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 0 10%;
+        }
+
+        .button {
+            background-color: #ccc;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+            text-decoration: none;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #fff;
+        }
+
+        .bibtex-section {
+            background-color: #111;
+            padding: 40px 10%;
+            text-align: center;
+            margin-top: 60px;
+            color: #ccc;
+        }
+
+        .bibtex-section h3 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .bibtex-code {
+            background-color: #222;
+            color: #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: left;
+            display: inline-block;
+            font-family: monospace;
+            max-width: 800px;
+            overflow-x: auto;
+        }
+
+        section {
+            margin-top: 100px;
+        }
+
+        section:first-of-type {
+            margin-top: 0;
+        }
+
+        .title {
+            background-color: #000;
+            position: sticky;
+            top: 0;
+            padding: 20px 10%;
+            font-size: 30px;
+            font-weight: 600;
+            z-index: 1000;
+            min-height: 60px;
+            box-sizing: border-box;
+        }
+
+        .description {
+            padding: 0 10% 20px 10%;
+            color: #999;
+            line-height: 25px;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .flex-row {
+            display: flex;
+            column-gap: 5px;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            padding: 0 5px 5px 5px;
+
+        }
+
+        .flex-row>div {
+            flex-grow: 1;
+            flex-basis: 0;
+            position: relative;
+        }
+
+        .flex>div {
+            width: calc(100% / 3 - 5px * 2 / 3);
+            margin-top: 2.5px;
+            margin-bottom: 2.5px;
+            position: relative;
+        }
+
+        .flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 0 5px;
+        }
+
+        .prompt-wrap {
+            position: relative;
+        }
+
+        video,
+        img {
+            width: 100%;
+        }
+
+        .prompt {
+            max-width: calc(100% - 20px);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 10px;
+            backdrop-filter: blur(10px);
+            bottom: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            box-sizing: border-box;
+        }
+
+        .flex-very-compact .full-screen-button {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            border-radius: 0;
+        }
+
+        .chinese {
+            font-family: 'Tencent', sans-serif;
+            font-weight: bold;
+            color: #d18585;
+            font-size: 1.1em;
+        }
+
+        .video-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-auto-rows: minmax(100px, auto);
+            /* 行高自适应内容 */
+            gap: 20px;
+            /* 定义间隙 */
+            grid-auto-flow: dense;
+            /* 关键：启用密集填充 */
+            width: 90%;
+            /* 左右各留5% (100% - 5%*2) */
+            max-width: 1440px;
+            /* 可选：限制最大宽度 */
+            margin: 0 auto;
+            /* 水平居中 */
+        }
+
+        /* 定义不同尺寸组件的占位 */
+        .video-component-large {
+            grid-column: span 2;
+            /* 横向占2列 */
+            grid-row: span 2;
+            /* 纵向占2行 */
+        }
+
+        .video-component-tall {
+            grid-row: span 2;
+            /* 纵向占2行 */
+        }
+
+        .video-component-wide {
+            grid-column: span 2;
+            /* 纵向占2行 */
+        }
+
+        @media (hover: hover) {
+
+            .prompt-wrap:hover .prompt,
+            .full-screen-wrap:hover .full-screen-button {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            #contributors a:hover {
+                background-color: #222;
+            }
+        }
+
+        @media (hover: none) {
+            #contributors a {
+                pointer-events: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .flex-dynamic>div {
+                width: calc(100% / 2 - 5px / 2);
+            }
+        }
+
+        @media (max-width: 640px) {
+            #intro h1 {
+                font-size: 50px;
+            }
+
+            #intro h2 {
+                font-size: 20px;
+            }
+
+            .ruler {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 512px) {
+
+            .flex-dynamic>div,
+            .flex-dynamic-1>div {
+                width: 100%;
+            }
+
+            .content {
+                padding: 0 12px;
+            }
+
+            .description {
+                padding: 0 12px 20px 12px;
+            }
+
+            .title {
+                padding: 20px 12px;
+            }
+
+            .ruler-tight {
+                font-size: 6px;
+                column-gap: 0;
+            }
+
+            .title-long {
+                font-size: 16px;
+            }
+
+        }
+
+        .margin-top {
+            margin-top: 50px;
+        }
+
+        .ruler {
+            text-align: center;
+            position: sticky;
+            top: 60px;
+            z-index: 999;
+            background-color: #000;
+            color: #999;
+            padding: 5px 0;
+        }
+
+        .ruler>div {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .selected {
+            box-shadow: 0 0 0 5px #fff;
+        }
+
+        .container {
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            justify-content: left;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slidervideo {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: 0.4s ease;
+            object-fit: contain;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: ew-resize;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        body {
+            font-family: 'Tencent', sans-serif;
+            /* background: #fff; */
+            padding: 40px;
+            text-align: center;
+        }
+
+        .video-comparison-container {
+            position: relative;
+            width: 800px;
+            max-width: 100%;
+            margin: auto;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-wrapper.after {
+            z-index: 1;
+        }
+
+        .video-wrapper.before {
+            z-index: 2;
+            overflow: hidden;
+            background-color: #BBBBBB;
+        }
+
+        .video-wrapper video {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+            max-width: none;
+        }
+
+        .divider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            left: 50%;
+            transform: translateX(-2px);
+            z-index: 3;
+            cursor: ew-resize;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .divider::after {
+            content: '⟷';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: #333;
+            pointer-events: none;
+        }
+
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        body.dragging-video-slider,
+        body.dragging-video-slider * {
+            cursor: ew-resize !important;
+        }
+
+        /* 确保一个容器中的图片和视频保持相同高宽比 */
+        .video-static-flex {
+            display: grid;
+            width: 100%;
+            gap: 2px;
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #000;
+            max-width: 90%;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3列等宽 */
+            grid-template-rows: repeat(2, auto);
+            /* 2行 */
+            grid-template-areas:
+                "img1 img2 img3"
+                "vid1 vid2 vid3";
+        }
+
+        /* 容器样式 */
+        .static-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            aspect-ratio: 1/1;
+            /* 确保1:1的宽高比 */
+            background-color: #BBBBBB;
+            /* 背景色 */
+        }
+
+        .static-wrapper.video {
+            background-color: #000;
+            /* 视频容器背景为黑色 */
+        }
+
+        /* 图片和视频样式 */
+        .static-wrapper img,
+        .static-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 视频和图片布局 - 大屏 (1280px及以上) */
+        .video-static-flex {
+            display: grid;
+            width: 100%;
+            gap: 2px;
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #000;
+            max-width: 90%;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3列等宽 */
+            grid-template-rows: repeat(2, auto);
+            /* 2行 */
+            grid-template-areas:
+                "img1 img2 img3"
+                "vid1 vid2 vid3";
+        }
+
+        /* 中屏布局 - (680px - 1279px) */
+        @media (min-width: 680px) and (max-width: 1279px) {
+            .video-static-flex {
+                grid-template-columns: repeat(2, 1fr);
+                /* 2列等宽 */
+                grid-template-rows: repeat(3, auto);
+                /* 3行 */
+                grid-template-areas:
+                    "img1 vid1"
+                    "img2 vid2"
+                    "img3 vid3";
+            }
+        }
+
+        /* 小屏布局 - (小于680px) */
+        @media (max-width: 679px) {
+            .video-static-flex {
+                grid-template-columns: 1fr;
+                /* 1列全宽 */
+                grid-template-rows: repeat(6, auto);
+                /* 6行 */
+                grid-template-areas:
+                    "img1"
+                    "vid1"
+                    "img2"
+                    "vid2"
+                    "img3"
+                    "vid3";
+            }
+        }
+
+        /* 网格区域定义 */
+        .static-wrapper:nth-child(1) {
+            grid-area: img1;
+        }
+
+        .static-wrapper:nth-child(2) {
+            grid-area: vid1;
+        }
+
+        .static-wrapper:nth-child(3) {
+            grid-area: img2;
+        }
+
+        .static-wrapper:nth-child(4) {
+            grid-area: vid2;
+        }
+
+        .static-wrapper:nth-child(5) {
+            grid-area: img3;
+        }
+
+        .static-wrapper:nth-child(6) {
+            grid-area: vid3;
+        }
+
+        /* Make the image container in section#image_3 slightly narrower but wider than text */
+        section#image_all .flex-dynamic {
+            max-width: 90%;
+            /* Or adjust as needed, e.g., 85% or 88% */
+            margin-left: auto;
+            margin-right: auto;
+            /* padding: 0 5px; /* This padding is already on .flex so might not be needed here, or could be adjusted */
+        }
+
+        section#video_all .flex-dynamic {
+            max-width: 90%;
+            /* Or adjust as needed, e.g., 85% or 88% */
+            margin-left: auto;
+            margin-right: auto;
+            /* padding: 0 5px; /* This padding is already on .flex so might not be needed here, or could be adjusted */
+        }
+
+        /* Styles for image layout in section#image_all */
+        @media (min-width: 1280px) {
+            section#image_all .flex-dynamic>div {
+                width: calc((100% - 2 * 5px) / 3);
+                /* 3 columns */
+            }
+
+            section#video_all .flex-dynamic>div {
+                width: calc((100% - 2 * 5px) / 3);
+                /* 3 columns */
+            }
+        }
+
+        @media (min-width: 680px) and (max-width: 1279px) {
+            section#image_all .flex-dynamic>div {
+                width: calc((100% - 1 * 5px) / 2);
+                /* 2 columns */
+            }
+
+            section#video_all .flex-dynamic>div {
+                width: calc((100% - 1 * 5px) / 2);
+                /* 2 columns */
+            }
+        }
+
+        @media (max-width: 679px) {
+            section#image_all .flex-dynamic>div {
+                width: 100%;
+                /* 1 column */
+            }
+
+            section#video_all .flex-dynamic>div {
+                width: 100%;
+                /* 1 column */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section id="intro">
+        <div class="content">
+            <h1><strong>Hunyuan-GameCraft</strong></h1>
+            <h2><strong>High-dynamic Interactive Game Video Generation</strong></h2>
+            <div class="authors">
+                <img id="affiliation-logo" src="./assets/logos/logo.png" alt="Logo"
+                    style="max-height: 23px; height: auto; width: auto; vertical-align: middle;">
+                <span class="author-block" style="font-size: 17px; vertical-align: middle;">Tencent Hunyuan</span>
+            </div>
+
+            <a class="button" href="https://arxiv.org/abs/2505.14135" target="_blank" rel="noopener noreferrer">
+                <i class="ai ai-arxiv" style="font-size:17px"></i>
+                Technical Report
+            </a>
+            <a href="https://hunyuan.tencent.com/game/home" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <img src="./assets/icons/game-icon.png" alt="Paper"
+                    style="width:17px; height:1em; vertical-align:-3px; margin-right:5px;">
+                <span>Getting Started</span>
+            </a>
+            
+            
+            <!--  <a class="button" href="https://hunyuan.tencent.com" rel="noopener noreferrer">
+                <i class="fa fa-github" style="font-size:17px"></i>
+                GitHub
+            </a>
+            <a href="https://hunyuan.tencent.com" class="external-link button is-normal is-rounded is-dark">
+                <span>Huggingface Model</span>
+            </a>
+            <a href="https://hunyuan.tencent.com" class="external-link button is-normal is-rounded is-dark">
+                <span>Huggingface Demo</span>
+            </a> -->
+           
+            <div class="flex-2 flex-dynamic-1" style="display: flex; justify-content: center; margin-top: 30px;">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="loading-placeholder" style="display: none;">
+                        <div class="loading-text">Loading...</div>
+                        <div class="loading-icon">✨</div>
+                    </div>
+                    <video controls autoplay playsinline muted loop
+                        onloadeddata="this.style.display='block'; this.previousElementSibling.style.display='none';"
+                        src="./assets/videos/main.webm" style="display: block;"></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="first_part">
+        <div class="title">
+            Introduction
+        </div>
+        <div class="description">
+            Hunyuan-Game is an AIGC-based toolset for boosting development process in gaming industry.
+            It's consisted by four image generation models and five video generation models.
+            These models address significant challenges in game development and are highly adaptable to various game
+            scenarios.
+        </div>
+    </section>
+
+    <section id="image_all">
+        <div class="title">
+            Hunyuan-Game-Image Generation
+        </div>
+        <div class="description">
+            Built upon a customized image generation model tailored for gaming scenarios,
+            Hunyuan-Game-Image can provide various AIGC-based tools for 2D art design in gaming industry.
+        </div>
+
+        <section id="image_base" class="subsection">
+            <div class="title">
+                <h5>Text-to-Image Generation</h5>
+            </div>
+            <div class="description">
+                The model is designed specifically for game scenarios,
+                integrating deep knowledge of the game to enhance aesthetic expression and systematically
+                understand diverse art styles. We introduce a prompt optimization model to improve image quality
+                and provide precise semantic descriptions, lowering the barrier of professional use.
+            </div>
+
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="base_1" src="./assets/images/base/image.png">
+                    <div class="prompt">
+                        蓝灰色的夜晚天空为背景，点缀着星光闪烁，柔和的月光洒在怪物的鳞甲上，营造出幽暗而神秘的氛围。<br>
+                        Against a blue-gray night sky dotted with twinkling stars, the soft moonlight spills over the
+                        monster's scaly armor, creating a mysterious atmosphere.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="base_2" src="./assets/images/base/image1.jpg">
+                    <div class="prompt">
+                        一只可爱的草精灵，它有着黑色的大眼睛，身体由树叶和草茎组成，阳光沐浴在它的身上。<br>
+                        A cute grass spirit with big black eyes. Its body is made up of leaves and grass stems, and the
+                        sunlight is shining upon it.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="base_3" src="./assets/images/base/image2.png">
+                    <div class="prompt">
+                        一个具有夸张造型和强烈生命力的角色，角色周围环绕着发光的能量气体，透明特效增强了其动态感。<br>
+                        A character with exaggerated styling and strong vitality, surrounded by glowing energy gas, with
+                        transparent special effects enhancing its dynamism.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="base_4" src="./assets/images/base/image3.jpg">
+                    <div class="prompt">
+                        一个穿着科技感服饰的女性动漫角色，背景是全息投影装置。<br>
+                        A female anime character wearing clothing with a sense of technology, with a holographic
+                        projection device in the background.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="base_5" src="./assets/images/base/image8.png">
+                    <div class="prompt">
+                        一座高耸的十字架光塔突兀而立，透射着耀眼的光芒，塔下矗立着巨大的圣堂战争机器。<br>
+                        A towering cross-shaped light spire stands abruptly, emitting dazzling rays, beneath which looms
+                        a gigantic war machine of the Holy Sanctuary.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="base_6" src="./assets/images/base/image24.png">
+                    <div class="prompt">
+                        一把华丽的宝剑，紫色的能量环绕剑身。<br>
+                        A magnificent sword with purple energy swirling around its blade.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="image_1" class="subsection">
+            <div class="title">
+                <h5>Text-to-Game Visual Effects</h5>
+            </div>
+            <div class="description">
+                Industry's first dedicated AI-generated image model specialized for VFX generation.
+                Designers can gain inspirational elements from the generated game visual effects.
+            </div>
+
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="t2gvf_5" src="./assets/images/t2gvf/image_t1.png">
+                    <div class="prompt">
+                        蓝紫色的流光特效，位于画面中央，呈现出流动的火焰状造型，呈上升趋势。在流光之中散布着十字星形的粒子，这些粒子在流光的承托下显得异常闪亮，增强了画面动态感<br>
+                        A blue-purple flowing light effect located at the center of the image, resembling a flowing
+                        flame shape with an upward trend. Within the flowing light, cross-shaped star particles are
+                        scattered, appearing exceptionally bright against the backdrop of the flowing light, enhancing
+                        the dynamic feel of the image
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="t2gvf_6" src="./assets/images/t2gvf/image_t2.png">
+                    <div class="prompt">
+                        五彩斑斓的扩散特效，形状为星点状，特效满屏幕分布，闪烁光芒，充满整个画面，卡通风格<br>
+                        A vibrant diffusion effect with star-shaped points, distributed across the entire screen,
+                        twinkling and filling the entire scene in a cartoon style.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="t2gvf_3" src="./assets/images/t2gvf/image8.png">
+                    <div class="prompt">
+                        粉蓝色的绽放特效，具有透明光效材质，呈花朵形状，从中心向外呈径向扩散，透明效果使其在图像中具有层次感<br>
+                        A pastel blue and pink blooming effect with a transparent light material, shaped like a flower.
+                        It radiates outward from the center in a radial spread. The transparency gives it a sense of
+                        depth within the image
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="t2gvf_4" src="./assets/images/t2gvf/image10.png">
+                    <div class="prompt">
+                        黑色的水墨涟漪特效在画面中央展开，向外扩散环绕，涟漪的中心呈现出山石的细致图案，形状不规则但与涟漪和谐相融<br>
+                        A black ink ripple effect unfolds at the center of the image, spreading outward in a circular
+                        pattern. The center of the ripple reveals a detailed design of mountain rocks, with an irregular
+                        shape that harmoniously blends with the ripples
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="t2gvf_3" src="./assets/images/t2gvf/image11.png">
+                    <div class="prompt">
+                        金色的法阵特效，形状为圆形和环形相结合，设计风格为巴洛克，图案简约又精致，特效整体闪亮<br>
+                        A golden magic circle effect, combining circular and ring shapes. The design style is Baroque,
+                        with patterns that are both simple and exquisite. The overall effect is bright and shining
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="t2gvf_4" src="./assets/images/t2gvf/image12.png">
+                    <div class="prompt">
+                        蓝紫色的流光特效，整体形态像流动的火焰，呈现出一种动态的上升流动<br>
+                        A blue-purple flowing light effect, with an overall shape resembling flowing flames, exhibiting
+                        a dynamic upward movement
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="image_2" class="subsection">
+            <div class="title">
+                <h5>Image-to-Game Visual Effects</h5>
+            </div>
+            <div class="description">
+                Our Image-to-Game Visual Effects model is built upon Text-to-Game Visual Effects model,
+                which utilizes images to enhance control capability in VFX generation.
+                We also introduce a material transfer model to achieve precise capture and transfer of material textures
+                and visual styles,
+                thereby effectively enhancing the quality of generated effect materials.
+            </div>
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/i2gvf/p1_o1.png" alt="Before">
+                        <img src="assets/images/i2gvf/p1_g.png" alt="After">
+                    </div>
+                    <div class="prompt">
+                        一个浅蓝色的蝴蝶形状的特效，背景为黑色，星光点点<br>
+                        A light blue butterfly-shaped effect, black background filled with sparkling stars.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/i2gvf/P2_o.png" alt="Before">
+                        <img src="assets/images/i2gvf/P2_g.png" alt="After">
+                    </div>
+                    <div class="prompt">
+                        淡金色鱼鳍的拖尾特效。金线流光，粒子特效，条形，涟漪效果，梦幻，散发出神秘的光芒，风格是写实。方向是左至右<br>
+                        A pale gold fish fin trail effect. Featuring flowing golden lines, particle effects, and a
+                        ripple effect, it exudes a dreamy and mysterious glow in a realistic style. The direction is
+                        from left to right
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/i2gvf/p3_o.png" alt="Before">
+                        <img src="assets/images/i2gvf/p3_g.png" alt="After">
+                    </div>
+                    <div class="prompt">
+                        绿色的拖尾特效，形状锥形，写实风格，灰色背景<br>
+                        A green trail effect in a cone shape, with a realistic style and a gray background
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/i2gvf/p4_o.png" alt="Before">
+                        <img src="assets/images/i2gvf/p4_g.png" alt="After">
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/i2gvf/p5_o.png" alt="Before">
+                        <img src="assets/images/i2gvf/p5_g.png" alt="After">
+                    </div>
+                </div>
+
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/i2gvf/p6_o.png" alt="Before">
+                        <img src="assets/images/i2gvf/p6_g.png" alt="After">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="image_3" class="subsection">
+            <div class="title">
+                <h5>Transparent and Seamless Image Generation</h5>
+            </div>
+            <div class="description">
+                This model expands transparent image generation to seamless texture applications, supporting categories
+                like characters, props, scenes, and VFX. It also converts user-provided transparent textures into
+                seamless transparent textures, streamlining creative workflows.
+                Additionally, we can convert user-provided transparent textures into seamless transparent textures.
+            </div>
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="trans_1" src="./assets/images/transparent/image1.jpeg">
+                    <div class="prompt">
+                        粒子，吸收，彩虹。一个彩色的飘带在旋转，周围有几颗星星点缀
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="trans_2" src="./assets/images/transparent/image2.png">
+                    <div class="prompt">
+                        一条青色的龙，物件，烟，流光，背后有白色的烟雾。
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="trans_3" src="./assets/images/transparent/image3.png">
+                    <div class="prompt">
+                        爆炸，地裂，红色的火光，石子飞溅
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="trans_4" src="./assets/images/transparent/image4.png">
+                    <div class="prompt">
+                        一座精美的中世纪风格建筑，由石材和木材建成。
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="trans_5" src="./assets/images/transparent/image5.png">
+                    <div class="prompt">
+                        Q版的精美动漫女孩，拥有蓝紫色的长卷发，戴着粉色棒球帽，穿着粉色T恤、轻薄外套
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <img id="trans_7" src="./assets/images/transparent/image7.png">
+                    <div class="prompt">
+                        优雅的男性角色黑发在风中飞舞，被雪花包围
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="image_4" class="subsection">
+            <div class="title">
+                <h5>Game Character Generation</h5>
+            </div>
+            <div class="description">
+                Game Character Generation model enhances control and professionalism through its structured workflow.
+                Its specialized character consistency model further ensures coherent character representation across
+                poses by analyzing structural maps (white models/depth maps),
+                overcoming the critical limitation of inconsistent style and settings in conventional T2I systems.
+                the solution also establishes a standardized pipeline for industrial-scale game production,
+                effectively bridging the gap between creative concepts and production-ready assets.
+            </div>
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/game_character/p1_o.png" alt="Before">
+                        <img src="assets/images/game_character/p1_g.png" alt="After">
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/game_character/p2_o.png" alt="Before">
+                        <img src="assets/images/game_character/p2_g.png" alt="After">
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <div class="twentytwenty-container">
+                        <img src="assets/images/game_character/p3_o.png" alt="Before">
+                        <img src="assets/images/game_character/p3_g.png" alt="After">
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+
+    </section>
+
+    <section id="video_all">
+        <div class="title">
+            Hunyuan-Game-Video Generation
+        </div>
+        <div class="description">
+            Hunyuan-Game-Video Generation is a video generation toolset designed specically for gaming industry.
+            Built upon Hunyuan I2V base model, this toolset provides many useful functions for 2D and 3D arts in game
+            production pipeline.
+        </div>
+
+        <section id="video_base" class="subsection">
+            <div class="title">
+                <h5>Image-to-Video Generation</h5>
+            </div>
+            <div class="description">
+                This model has demonstrated exceptional performance in the field
+                of game video generation, surpassing the previous methods, such as Kling and Wan, in visual
+                fidelity and temporal consistency. Moreover, the I2V model can serve as a foundation for many
+                downstream tasks, thereby providing a robust fundamental capability.
+            </div>
+
+            <div class="video-grid-container">
+                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
+                    <div class="video-comparison-container">
+                        <div class="prompt" style="z-index: 4;">
+                            女人睁开眼睛，目光微微移动。她周围的粒子漂浮，镜头拉远
+                        </div>
+                        <div class="video-wrapper after">
+                            <video id="afterVideo" muted autoplay loop playsinline>
+                                <source src="./assets/videos/video_base/v6_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-wrapper before">
+                            <img id="beforeImage" src="assets/images/video_base/v6_o.png" alt="Before Image">
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
+                    <div class="video-comparison-container">
+                        <div class="prompt" style="z-index: 4;">
+                            黑衣女人右手的火焰闪耀着光芒，红色飘带在风中飞扬，周围不断掉落金色碎片。
+                        </div>
+                        <div class="video-wrapper after">
+                            <video id="afterVideo" muted autoplay loop playsinline>
+                                <source src="./assets/videos/video_base/v7_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-wrapper before">
+                            <img id="beforeImage" src="assets/images/video_base/v7_o.jpg" alt="Before Image">
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+
+                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
+                    <div class="video-comparison-container">
+                        <div class="prompt" style="z-index: 4;">
+                            小女孩笑容温暖，双手比出一个心形。她的头发在微风中轻轻摇曳；镜头保持稳定的特写镜头，柔和的焦点落在她的指尖上
+                        </div>
+                        <div class="video-wrapper after">
+                            <video id="afterVideo" muted autoplay loop playsinline>
+                                <source src="./assets/videos/video_base/v2_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-wrapper before">
+                            <img id="beforeImage" src="assets/images/video_base/v2_o.png" alt="Before Image">
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
+                    <div class="video-comparison-container">
+                        <div class="prompt" style="z-index: 4;">
+                            小机器人充满活力地上下跳跃；它的机械肢体在每次跳跃时都有节奏地摆动。摄像机保持稳定的广角视角
+                        </div>
+                        <div class="video-wrapper after">
+                            <video id="afterVideo" muted autoplay loop playsinline>
+                                <source src="./assets/videos/video_base/v4_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-wrapper before">
+                            <img id="beforeImage" src="assets/images/video_base/v4_o.png" alt="Before Image">
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+
+                <script>
+                    $(function () {
+                        initializeStaticVideoLayout();
+                    });
+                </script>
+
+            </div>
+
+            </div>
+        </section>
+
+
+
+
+        <section id="video_at_pose" class="subsection">
+            <div class="title">
+                <h5>360° A/T Pose Character Video Generation</h5>
+            </div>
+            <div class="description">
+                As the first model of its kind in the industry, it allows
+                for the creation of 360-degree rotation videos from any character illustration, ensuring A/T-pose
+                standards. The generated video helps to eliminate visual blind spots from a single perspective,
+                allowing the designer to evaluate the character design from different views.
+            </div>
+
+            <div class="flex flex-dynamic">
+                <!-- 使用单个容器包含所有内容 -->
+                <div class="video-comparison-container" style="width: 100%;">
+                    <div class="video-static-flex">
+                        <!-- 第一行 -->
+                        <div class="static-wrapper image">
+                            <img src="assets/images/atpose/v4_o.png" alt="Before Image">
+                        </div>
+                        <div class="static-wrapper video">
+                            <video muted autoplay loop playsinline>
+                                <source src="./assets/videos/atpose/v4_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="static-wrapper image">
+                            <img src="assets/images/atpose/v5_o.png" alt="Before Image">
+                        </div>
+
+                        <!-- 第二行 -->
+                        <div class="static-wrapper video">
+                            <video muted autoplay loop playsinline>
+                                <source src="./assets/videos/atpose/v5_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="static-wrapper image">
+                            <img src="assets/images/atpose/v3_o.png" alt="Before Image">
+                        </div>
+                        <div class="static-wrapper video">
+                            <video muted autoplay loop playsinline>
+                                <source src="./assets/videos/atpose/v3_g.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(function () {
+                        initializeStaticVideoLayout();
+                    });
+                </script>
+            </div>
+        </section>
+
+
+
+
+        <section id="video_stand" class="subsection">
+            <div class="title">
+                <h5>Dynamic Illustration Generation</h5>
+            </div>
+            <div class="description">
+                This model introduces the ability to generate dynamic illustrations,
+                creating seamless looping animations from static character illustrations while maintaining
+                high temporal consistency. It meets the demand for smooth and natural character movements in
+                game animations. Dynamic Illustration has a wide range of applications, such as character entry
+                animations and promotional videos.
+            </div>
+
+            <div class="flex flex-dynamic">
+
+                <div class="video-comparison-container">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/stand/v1_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <img id="beforeImage" src="assets/images/stand/v1_o.jpeg" alt="Before Image">
+                    </div>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="video-comparison-container">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/stand/v2_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <img id="beforeImage" src="assets/images/stand/v2_o.png" alt="Before Image">
+                    </div>
+                    <div class="divider"></div>
+                </div>
+
+
+
+                <div class="video-comparison-container">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/stand/v3_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <img id="beforeImage" src="assets/images/stand/v3_o.png" alt="Before Image">
+                    </div>
+                    <div class="divider"></div>
+                </div>
+                <script>
+                    $(function () {
+                        initializeVideoComparison();
+                    });
+                </script>
+
+            </div>
+        </section>
+
+
+        <section id="video_sr" class="subsection">
+            <div class="title">
+                <h5>Generative Video Super-Resolution</h5>
+            </div>
+            <div class="description">
+                Our video super-resolution model is exceptional in the
+                game and anime fields, transforming low-resolution assets into impressive 2K videos. This greatly
+                improves visual quality without sacrificing detail, which is crucial for preserving the aesthetic
+                quality of game visuals.
+            </div>
+
+            <div class="video-grid-container">
+
+                <div class="video-comparison-container  video-component-wide">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/sr/v5_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <video id="beforeImage" src="./assets/videos/sr/v5_o.mp4" alt="Before Image" type="video/mp4"
+                            muted loop playsinline>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+                <div class="video-comparison-container video-component-wide">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/sr/v4_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <video id="beforeImage" src="./assets/videos/sr/v4_o.mp4" alt="Before Image" type="video/mp4"
+                            muted loop playsinline>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+                <div class="video-comparison-container  video-component-wide">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/sr/v2_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <video id="beforeImage" src="./assets/videos/sr/v2_o.mp4" alt="Before Image" type="video/mp4"
+                            muted loop playsinline>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="video-comparison-container video-component-wide">
+                    <div class="video-wrapper after">
+                        <video id="afterVideo" muted autoplay loop playsinline>
+                            <source src="./assets/videos/sr/v6_g.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="video-wrapper before">
+                        <video id="beforeImage" src="./assets/videos/sr/v6_o.mp4" alt="Before Image" type="video/mp4"
+                            muted loop playsinline>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+
+
+
+                <script>
+                    $(function () {
+                        initializeVideoComparison();
+                    });
+                </script>
+
+            </div>
+        </section>
+
+
+        <section id="video_interactive" class="subsection">
+            <div class="title">
+                <h5>Interactive Game Video Generation</h5>
+            </div>
+            <div class="description">
+                The proposed model addresses key limitations in existing world modeling approaches by offering several
+                innovative advantages.
+                First, it unifies diverse keyboard/mouse inputs (e.g., W, A, S, D, Space) into a shared camera
+                representation space,
+                enabling fine-grained, temporally coherent control over game scene video synthesis while ensuring
+                physical plausibility during cinematographic operations.
+                Second, leveraging model distillation based on the Phased Consistency Model, it significantly
+                accelerates inference speed and enhances interaction responsiveness,
+                overcoming computational inefficiency challenges in dynamic scene generation. Additionally, the model
+                achieves high-fidelity dynamics by balancing detailed scene fidelity with long-sequence consistency,
+                surpassing traditional methods that struggle with flickering or abrupt transitions.
+                These advancements position Hunyuan-GameCraft as a robust solution for real-time, interactive game
+                environments requiring both precision and realism.
+            </div>
+
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                    </video>
+
+                    <div class="prompt">
+                        A dirt road winds through a serene forest landscape under a bright blue sky.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_2" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A serene winter landscape featuring snow-covered trees and a tranquil river.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A dark, sleek car is driving down a winding road at night, its headlights illuminating the path
+                        ahead.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery and a serene
+                        pond, set against a backdrop of towering, jagged mountains under a twilight sky.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A rustic village scene with thatched-roof huts, wooden fences, and two riders on horseback
+                        traversing a muddy path.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A small sailboat navigates through choppy waters under a vast sky.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A vibrant, cartoon-style forest scene features a winding dirt path surrounded by lush green
+                        trees and bushes under a bright blue sky dotted with fluffy white clouds.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A serene landscape features a river winding through lush green fields under a bright blue sky
+                        dotted with fluffy clouds.
+                    </div>
+                </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A warmly lit, cozy room with wooden beams, a bed with red bedding, a portrait leaning against
+                        the wall, a table with a candlestick, and barrels, evoking a rustic, intimate atmosphere.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bibtex-section">
+            <h3>BibTeX</h3>
+            <pre class="bibtex-code">@misc{li2025hunyuangameindustrialgradeintelligentgame,
+    title={Hunyuan-Game: Industrial-grade Intelligent Game Creation Model}, 
+    author={Ruihuang Li and Caijin Zhou and Shoujian Zheng and Jianxiang Lu and Jiabin Huang and Comi Chen and Junshu Tang and Guangzheng Xu and Jiale Tao and Hongmei Wang and Donghao Li and Wenqing Yu and Senbo Wang and Zhimin Li and Yetshuan Shi and Haoyu Yang and Yukun Wang and Wenxun Dai and Jiaqi Li and Linqing Wang and Qixun Wang and Zhiyong Xu and Yingfang Zhang and Jiangfeng Xiong and Weijie Kong and Chao Zhang and Hongxin Zhang and Qiaoling Zheng and Weiting Guo and Xinchi Deng and Yixuan Li and Renjia Wei and Yulin Jian and Duojun Huang and Xuhua Ren and Sihuan Lin and Yifu Sun and Yuan Zhou and Joey Wang and Qin Lin and Jingmiao Yu and Jihong Zhang and Caesar Zhong and Di Wang and Yuhong Liu and Linus and Jie Jiang and Longhuang Wu and Shuai Shao and Qinglin Lu},
+    year={2025},
+    eprint={2505.14135},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV},
+    url={https://arxiv.org/abs/2505.14135}, 
+}</pre>
+        </section>
+
+
+</body>
+
+<script src="assets/js/video-init.js"></script>
+<script src="assets/js/image-preloader.js"></script>
+<script src="assets/js/twentytwenty-init.js"></script>
+
+</html>
