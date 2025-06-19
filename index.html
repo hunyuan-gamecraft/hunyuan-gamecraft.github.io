@@ -17,11 +17,19 @@
 
     <link rel="stylesheet" href="assets/css/twentytwenty.css" />
     <script src="assets/js/jquery.twentytwenty.js"></script>
+
     <style>
         @font-face {
             font-family: 'Tencent';
             font-style: normal;
             src: url('./assets/fonts/TencentSans-W3.ttf');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'TencentBold';
+            font-style: normal;
+            src: url('./assets/fonts/TencentSans-W7.ttf');
             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
 
@@ -184,7 +192,7 @@
         }
 
         #intro {
-            padding: 140px 0 80px 0;
+            padding: 80px 0 80px 0;
             justify-content: center;
             /* Center content vertically */
             text-align: center;
@@ -317,7 +325,7 @@
             position: sticky;
             top: 0;
             padding: 20px 10%;
-            font-size: 30px;
+            font-size: 40px;
             font-weight: 600;
             z-index: 1000;
             min-height: 60px;
@@ -326,9 +334,28 @@
 
         .description {
             padding: 0 10% 20px 10%;
-            color: #999;
+            color: #fff;
             line-height: 25px;
             font-weight: 300;
+        }
+
+        .description-justify {
+            padding: 0 10% 20px 10%;
+            color: #fff;
+            line-height: 25px;
+            font-weight: 300;
+            text-align: justify; /* 两端对齐 */
+        }
+
+
+        .description strong {
+            color: #fff;
+            font-family: 'TencentBold';
+        }
+
+        .description-justify strong {
+            color: #fff;
+            font-family: 'TencentBold';
         }
 
         .highlight {
@@ -379,9 +406,9 @@
             position: absolute;
             background: rgba(0, 0, 0, 0.5);
             color: rgba(255, 255, 255, 0.9);
-            font-size: 10px;
+            font-size: 14px;
             backdrop-filter: blur(10px);
-            bottom: 10px;
+            bottom: 80px;
             left: 10px;
             padding: 5px 10px;
             border-radius: 15px;
@@ -803,6 +830,11 @@
                 width: calc((100% - 2 * 5px) / 3);
                 /* 3 columns */
             }
+
+            section#compare .flex-dynamic>div {
+                width: calc((100% - 2 * 5px) / 6);
+                /* 3 columns */
+            }
         }
 
         @media (min-width: 680px) and (max-width: 1279px) {
@@ -814,6 +846,11 @@
             section#video_all .flex-dynamic>div {
                 width: calc((100% - 1 * 5px) / 2);
                 /* 2 columns */
+            }
+
+            section#compare .flex-dynamic>div {
+                width: calc((100% - 2 * 5px) / 6);
+                /* 3 columns */
             }
         }
 
@@ -827,6 +864,99 @@
                 width: 100%;
                 /* 1 column */
             }
+
+            section#compare .flex-dynamic>div {
+                width: calc((100% - 2 * 5px) / 6);
+                /* 3 columns */
+            }
+        }
+
+
+        /* Styles for layout in slider */
+        .slider-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .slider-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
+        }
+        
+        .slider-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            flex-shrink: 0;
+            padding: 0 10px;
+        }
+
+        .method-label {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        
+        .slider-nav {
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 20px 15px;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 10;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .slider-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        
+        /* .slider-group prompt-wrap {
+            position: relative;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .slider-group prompt {
+            padding: 12px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            margin-bottom: 20px;
+            left: 0;
+            right: 0;
+        } */
+        
+        @media (max-width: 768px) {
+            .slider-group {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+            }
+            
+            .slider-nav {
+                padding: 15px 10px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -835,13 +965,37 @@
     <section id="intro">
         <div class="content">
             <h1><strong>Hunyuan-GameCraft</strong></h1>
-            <h2><strong>High-dynamic Interactive Game Video Generation</strong></h2>
-            <div class="authors">
-                <img id="affiliation-logo" src="./assets/logos/logo.png" alt="Logo"
-                    style="max-height: 23px; height: auto; width: auto; vertical-align: middle;">
-                <span class="author-block" style="font-size: 17px; vertical-align: middle;">Tencent Hunyuan</span>
+            <h2><strong>High-dynamic Interactive Game Video Generation with Hybrid History Condition</strong></h2>
+            <div class="authors-info" style="background-color: black; color: white; font-family: Tencent, sans-serif; text-align: center; max-width: 50%; margin: 0 auto;">
+                <!-- 作者行1 -->
+                <div class="author-row" style="margin-bottom: 10px;">
+                    <span class="author" style="margin-right: 15px;">Jiaqi Li<sup style="font-size: 1em;">1,2*§</sup></span>
+                    <span class="author" style="margin-right: 15px;">Junshu Tang<sup style="font-size: 1em;">1*</sup></span>
+                    <span class="author" style="margin-right: 15px;">Zhiyong Xu<sup style="font-size: 1em;">1</sup></span>
+                    <span class="author">Longhuang Wu<sup style="font-size: 1em;">1</sup></span>
+                </div>
+                
+                <!-- 作者行2 -->
+                <div class="author-row" style="margin-bottom: 10px;">
+                    <span class="author" style="margin-right: 15px;">Yuan Zhou<sup style="font-size: 1em;">1</sup></span>
+                    <span class="author" style="margin-right: 15px;">Shuai Shao<sup style="font-size: 1em;">1</sup></span>
+                    <span class="author" style="margin-right: 15px;">Tianbao Yu<sup style="font-size: 1em;">1</sup></span>
+                    <span class="author" style="margin-right: 15px;">Zhiguo Cao<sup style="font-size: 1em;">2</sup></span>
+                    <span class="author">Qinglin Lu<sup style="font-size: 1em;">1†</sup></span>
+                </div>
+                
+                <!-- 机构信息 -->
+                <div class="institutions" style="font-size: 0.8em; line-height: 1.6; margin-bottom: 8px;">
+                    <span class="author" style="margin-right: 30px;">1 Tencent Hunyuan</span>
+                    <span class="author">2 Huazhong University of Science and Technology</span>
+                </div>
+                <div class="institutions" style="font-size: 0.8em; line-height: 1.6; margin-bottom: 15px;">
+                    <span class="author" style="margin-right: 30px;">* Equal Contribution</span>
+                    <span class="author" style="margin-right: 30px;">† Corresponding author</span>
+                    <span class="author">§ Work is done during the internship at Tencent Hunyuan</span>
+                </div>
+                
             </div>
-
             <a class="button" href="https://arxiv.org/abs/2505.14135" target="_blank" rel="noopener noreferrer">
                 <i class="ai ai-arxiv" style="font-size:17px"></i>
                 Technical Report
@@ -851,671 +1005,11 @@
                     style="width:17px; height:1em; vertical-align:-3px; margin-right:5px;">
                 <span>Getting Started</span>
             </a>
-            
-            
-            <!--  <a class="button" href="https://hunyuan.tencent.com" rel="noopener noreferrer">
-                <i class="fa fa-github" style="font-size:17px"></i>
-                GitHub
-            </a>
-            <a href="https://hunyuan.tencent.com" class="external-link button is-normal is-rounded is-dark">
-                <span>Huggingface Model</span>
-            </a>
-            <a href="https://hunyuan.tencent.com" class="external-link button is-normal is-rounded is-dark">
-                <span>Huggingface Demo</span>
-            </a> -->
-           
-            <div class="flex-2 flex-dynamic-1" style="display: flex; justify-content: center; margin-top: 30px;">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="loading-placeholder" style="display: none;">
-                        <div class="loading-text">Loading...</div>
-                        <div class="loading-icon">✨</div>
-                    </div>
-                    <video controls autoplay playsinline muted loop
-                        onloadeddata="this.style.display='block'; this.previousElementSibling.style.display='none';"
-                        src="./assets/videos/main.mp4" style="display: block;"></video>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="first_part">
-        <div class="title">
-            TL;DR
-        </div>
-        <div class="description">
-            Hunyuan-GameCraft is a novel interactive game video synthesis framework for dynamic content creation in game scenes, enabling users to produce content through customized action input. 
-        </div>
-    </section>
-
-    <section id="image_all">
-        <div class="title">
-            Hunyuan-Game-Image Generation
-        </div>
-        <div class="description">
-            Built upon a customized image generation model tailored for gaming scenarios,
-            Hunyuan-Game-Image can provide various AIGC-based tools for 2D art design in gaming industry.
-        </div>
-
-        <section id="image_base" class="subsection">
-            <div class="title">
-                <h5>Text-to-Image Generation</h5>
-            </div>
-            <div class="description">
-                The model is designed specifically for game scenarios,
-                integrating deep knowledge of the game to enhance aesthetic expression and systematically
-                understand diverse art styles. We introduce a prompt optimization model to improve image quality
-                and provide precise semantic descriptions, lowering the barrier of professional use.
-            </div>
-
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="base_1" src="./assets/images/base/image.png">
-                    <div class="prompt">
-                        蓝灰色的夜晚天空为背景，点缀着星光闪烁，柔和的月光洒在怪物的鳞甲上，营造出幽暗而神秘的氛围。<br>
-                        Against a blue-gray night sky dotted with twinkling stars, the soft moonlight spills over the
-                        monster's scaly armor, creating a mysterious atmosphere.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="base_2" src="./assets/images/base/image1.jpg">
-                    <div class="prompt">
-                        一只可爱的草精灵，它有着黑色的大眼睛，身体由树叶和草茎组成，阳光沐浴在它的身上。<br>
-                        A cute grass spirit with big black eyes. Its body is made up of leaves and grass stems, and the
-                        sunlight is shining upon it.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="base_3" src="./assets/images/base/image2.png">
-                    <div class="prompt">
-                        一个具有夸张造型和强烈生命力的角色，角色周围环绕着发光的能量气体，透明特效增强了其动态感。<br>
-                        A character with exaggerated styling and strong vitality, surrounded by glowing energy gas, with
-                        transparent special effects enhancing its dynamism.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="base_4" src="./assets/images/base/image3.jpg">
-                    <div class="prompt">
-                        一个穿着科技感服饰的女性动漫角色，背景是全息投影装置。<br>
-                        A female anime character wearing clothing with a sense of technology, with a holographic
-                        projection device in the background.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="base_5" src="./assets/images/base/image8.png">
-                    <div class="prompt">
-                        一座高耸的十字架光塔突兀而立，透射着耀眼的光芒，塔下矗立着巨大的圣堂战争机器。<br>
-                        A towering cross-shaped light spire stands abruptly, emitting dazzling rays, beneath which looms
-                        a gigantic war machine of the Holy Sanctuary.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="base_6" src="./assets/images/base/image24.png">
-                    <div class="prompt">
-                        一把华丽的宝剑，紫色的能量环绕剑身。<br>
-                        A magnificent sword with purple energy swirling around its blade.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="image_1" class="subsection">
-            <div class="title">
-                <h5>Text-to-Game Visual Effects</h5>
-            </div>
-            <div class="description">
-                Industry's first dedicated AI-generated image model specialized for VFX generation.
-                Designers can gain inspirational elements from the generated game visual effects.
-            </div>
-
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="t2gvf_5" src="./assets/images/t2gvf/image_t1.png">
-                    <div class="prompt">
-                        蓝紫色的流光特效，位于画面中央，呈现出流动的火焰状造型，呈上升趋势。在流光之中散布着十字星形的粒子，这些粒子在流光的承托下显得异常闪亮，增强了画面动态感<br>
-                        A blue-purple flowing light effect located at the center of the image, resembling a flowing
-                        flame shape with an upward trend. Within the flowing light, cross-shaped star particles are
-                        scattered, appearing exceptionally bright against the backdrop of the flowing light, enhancing
-                        the dynamic feel of the image
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="t2gvf_6" src="./assets/images/t2gvf/image_t2.png">
-                    <div class="prompt">
-                        五彩斑斓的扩散特效，形状为星点状，特效满屏幕分布，闪烁光芒，充满整个画面，卡通风格<br>
-                        A vibrant diffusion effect with star-shaped points, distributed across the entire screen,
-                        twinkling and filling the entire scene in a cartoon style.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="t2gvf_3" src="./assets/images/t2gvf/image8.png">
-                    <div class="prompt">
-                        粉蓝色的绽放特效，具有透明光效材质，呈花朵形状，从中心向外呈径向扩散，透明效果使其在图像中具有层次感<br>
-                        A pastel blue and pink blooming effect with a transparent light material, shaped like a flower.
-                        It radiates outward from the center in a radial spread. The transparency gives it a sense of
-                        depth within the image
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="t2gvf_4" src="./assets/images/t2gvf/image10.png">
-                    <div class="prompt">
-                        黑色的水墨涟漪特效在画面中央展开，向外扩散环绕，涟漪的中心呈现出山石的细致图案，形状不规则但与涟漪和谐相融<br>
-                        A black ink ripple effect unfolds at the center of the image, spreading outward in a circular
-                        pattern. The center of the ripple reveals a detailed design of mountain rocks, with an irregular
-                        shape that harmoniously blends with the ripples
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="t2gvf_3" src="./assets/images/t2gvf/image11.png">
-                    <div class="prompt">
-                        金色的法阵特效，形状为圆形和环形相结合，设计风格为巴洛克，图案简约又精致，特效整体闪亮<br>
-                        A golden magic circle effect, combining circular and ring shapes. The design style is Baroque,
-                        with patterns that are both simple and exquisite. The overall effect is bright and shining
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="t2gvf_4" src="./assets/images/t2gvf/image12.png">
-                    <div class="prompt">
-                        蓝紫色的流光特效，整体形态像流动的火焰，呈现出一种动态的上升流动<br>
-                        A blue-purple flowing light effect, with an overall shape resembling flowing flames, exhibiting
-                        a dynamic upward movement
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="image_2" class="subsection">
-            <div class="title">
-                <h5>Image-to-Game Visual Effects</h5>
-            </div>
-            <div class="description">
-                Our Image-to-Game Visual Effects model is built upon Text-to-Game Visual Effects model,
-                which utilizes images to enhance control capability in VFX generation.
-                We also introduce a material transfer model to achieve precise capture and transfer of material textures
-                and visual styles,
-                thereby effectively enhancing the quality of generated effect materials.
-            </div>
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/i2gvf/p1_o1.png" alt="Before">
-                        <img src="assets/images/i2gvf/p1_g.png" alt="After">
-                    </div>
-                    <div class="prompt">
-                        一个浅蓝色的蝴蝶形状的特效，背景为黑色，星光点点<br>
-                        A light blue butterfly-shaped effect, black background filled with sparkling stars.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/i2gvf/P2_o.png" alt="Before">
-                        <img src="assets/images/i2gvf/P2_g.png" alt="After">
-                    </div>
-                    <div class="prompt">
-                        淡金色鱼鳍的拖尾特效。金线流光，粒子特效，条形，涟漪效果，梦幻，散发出神秘的光芒，风格是写实。方向是左至右<br>
-                        A pale gold fish fin trail effect. Featuring flowing golden lines, particle effects, and a
-                        ripple effect, it exudes a dreamy and mysterious glow in a realistic style. The direction is
-                        from left to right
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/i2gvf/p3_o.png" alt="Before">
-                        <img src="assets/images/i2gvf/p3_g.png" alt="After">
-                    </div>
-                    <div class="prompt">
-                        绿色的拖尾特效，形状锥形，写实风格，灰色背景<br>
-                        A green trail effect in a cone shape, with a realistic style and a gray background
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/i2gvf/p4_o.png" alt="Before">
-                        <img src="assets/images/i2gvf/p4_g.png" alt="After">
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/i2gvf/p5_o.png" alt="Before">
-                        <img src="assets/images/i2gvf/p5_g.png" alt="After">
-                    </div>
-                </div>
-
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/i2gvf/p6_o.png" alt="Before">
-                        <img src="assets/images/i2gvf/p6_g.png" alt="After">
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="image_3" class="subsection">
-            <div class="title">
-                <h5>Transparent and Seamless Image Generation</h5>
-            </div>
-            <div class="description">
-                This model expands transparent image generation to seamless texture applications, supporting categories
-                like characters, props, scenes, and VFX. It also converts user-provided transparent textures into
-                seamless transparent textures, streamlining creative workflows.
-                Additionally, we can convert user-provided transparent textures into seamless transparent textures.
-            </div>
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="trans_1" src="./assets/images/transparent/image1.jpeg">
-                    <div class="prompt">
-                        粒子，吸收，彩虹。一个彩色的飘带在旋转，周围有几颗星星点缀
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="trans_2" src="./assets/images/transparent/image2.png">
-                    <div class="prompt">
-                        一条青色的龙，物件，烟，流光，背后有白色的烟雾。
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="trans_3" src="./assets/images/transparent/image3.png">
-                    <div class="prompt">
-                        爆炸，地裂，红色的火光，石子飞溅
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="trans_4" src="./assets/images/transparent/image4.png">
-                    <div class="prompt">
-                        一座精美的中世纪风格建筑，由石材和木材建成。
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="trans_5" src="./assets/images/transparent/image5.png">
-                    <div class="prompt">
-                        Q版的精美动漫女孩，拥有蓝紫色的长卷发，戴着粉色棒球帽，穿着粉色T恤、轻薄外套
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <img id="trans_7" src="./assets/images/transparent/image7.png">
-                    <div class="prompt">
-                        优雅的男性角色黑发在风中飞舞，被雪花包围
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="image_4" class="subsection">
-            <div class="title">
-                <h5>Game Character Generation</h5>
-            </div>
-            <div class="description">
-                Game Character Generation model enhances control and professionalism through its structured workflow.
-                Its specialized character consistency model further ensures coherent character representation across
-                poses by analyzing structural maps (white models/depth maps),
-                overcoming the critical limitation of inconsistent style and settings in conventional T2I systems.
-                the solution also establishes a standardized pipeline for industrial-scale game production,
-                effectively bridging the gap between creative concepts and production-ready assets.
-            </div>
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/game_character/p1_o.png" alt="Before">
-                        <img src="assets/images/game_character/p1_g.png" alt="After">
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/game_character/p2_o.png" alt="Before">
-                        <img src="assets/images/game_character/p2_g.png" alt="After">
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <div class="twentytwenty-container">
-                        <img src="assets/images/game_character/p3_o.png" alt="Before">
-                        <img src="assets/images/game_character/p3_g.png" alt="After">
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-
-
-    </section>
-
-    <section id="video_all">
-        <div class="title">
-            Hunyuan-Game-Video Generation
-        </div>
-        <div class="description">
-            Hunyuan-Game-Video Generation is a video generation toolset designed specically for gaming industry.
-            Built upon Hunyuan I2V base model, this toolset provides many useful functions for 2D and 3D arts in game
-            production pipeline.
-        </div>
-
-        <section id="video_base" class="subsection">
-            <div class="title">
-                <h5>Image-to-Video Generation</h5>
-            </div>
-            <div class="description">
-                This model has demonstrated exceptional performance in the field
-                of game video generation, surpassing the previous methods, such as Kling and Wan, in visual
-                fidelity and temporal consistency. Moreover, the I2V model can serve as a foundation for many
-                downstream tasks, thereby providing a robust fundamental capability.
-            </div>
-
-            <div class="video-grid-container">
-                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
-                    <div class="video-comparison-container">
-                        <div class="prompt" style="z-index: 4;">
-                            女人睁开眼睛，目光微微移动。她周围的粒子漂浮，镜头拉远
-                        </div>
-                        <div class="video-wrapper after">
-                            <video id="afterVideo" muted autoplay loop playsinline>
-                                <source src="./assets/videos/video_base/v6_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="video-wrapper before">
-                            <img id="beforeImage" src="assets/images/video_base/v6_o.png" alt="Before Image">
-                        </div>
-                        <div class="divider"></div>
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
-                    <div class="video-comparison-container">
-                        <div class="prompt" style="z-index: 4;">
-                            黑衣女人右手的火焰闪耀着光芒，红色飘带在风中飞扬，周围不断掉落金色碎片。
-                        </div>
-                        <div class="video-wrapper after">
-                            <video id="afterVideo" muted autoplay loop playsinline>
-                                <source src="./assets/videos/video_base/v7_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="video-wrapper before">
-                            <img id="beforeImage" src="assets/images/video_base/v7_o.jpg" alt="Before Image">
-                        </div>
-                        <div class="divider"></div>
-                    </div>
-                </div>
-
-
-                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
-                    <div class="video-comparison-container">
-                        <div class="prompt" style="z-index: 4;">
-                            小女孩笑容温暖，双手比出一个心形。她的头发在微风中轻轻摇曳；镜头保持稳定的特写镜头，柔和的焦点落在她的指尖上
-                        </div>
-                        <div class="video-wrapper after">
-                            <video id="afterVideo" muted autoplay loop playsinline>
-                                <source src="./assets/videos/video_base/v2_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="video-wrapper before">
-                            <img id="beforeImage" src="assets/images/video_base/v2_o.png" alt="Before Image">
-                        </div>
-                        <div class="divider"></div>
-                    </div>
-                </div>
-
-
-
-                <div class="prompt-wrap full-screen-wrap video-component-wide" style="position: relative;">
-                    <div class="video-comparison-container">
-                        <div class="prompt" style="z-index: 4;">
-                            小机器人充满活力地上下跳跃；它的机械肢体在每次跳跃时都有节奏地摆动。摄像机保持稳定的广角视角
-                        </div>
-                        <div class="video-wrapper after">
-                            <video id="afterVideo" muted autoplay loop playsinline>
-                                <source src="./assets/videos/video_base/v4_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="video-wrapper before">
-                            <img id="beforeImage" src="assets/images/video_base/v4_o.png" alt="Before Image">
-                        </div>
-                        <div class="divider"></div>
-                    </div>
-                </div>
-
-
-                <script>
-                    $(function () {
-                        initializeStaticVideoLayout();
-                    });
-                </script>
-
-            </div>
-
-            </div>
-        </section>
-
-
-
-
-        <section id="video_at_pose" class="subsection">
-            <div class="title">
-                <h5>360° A/T Pose Character Video Generation</h5>
-            </div>
-            <div class="description">
-                As the first model of its kind in the industry, it allows
-                for the creation of 360-degree rotation videos from any character illustration, ensuring A/T-pose
-                standards. The generated video helps to eliminate visual blind spots from a single perspective,
-                allowing the designer to evaluate the character design from different views.
-            </div>
-
-            <div class="flex flex-dynamic">
-                <!-- 使用单个容器包含所有内容 -->
-                <div class="video-comparison-container" style="width: 100%;">
-                    <div class="video-static-flex">
-                        <!-- 第一行 -->
-                        <div class="static-wrapper image">
-                            <img src="assets/images/atpose/v4_o.png" alt="Before Image">
-                        </div>
-                        <div class="static-wrapper video">
-                            <video muted autoplay loop playsinline>
-                                <source src="./assets/videos/atpose/v4_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="static-wrapper image">
-                            <img src="assets/images/atpose/v5_o.png" alt="Before Image">
-                        </div>
-
-                        <!-- 第二行 -->
-                        <div class="static-wrapper video">
-                            <video muted autoplay loop playsinline>
-                                <source src="./assets/videos/atpose/v5_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="static-wrapper image">
-                            <img src="assets/images/atpose/v3_o.png" alt="Before Image">
-                        </div>
-                        <div class="static-wrapper video">
-                            <video muted autoplay loop playsinline>
-                                <source src="./assets/videos/atpose/v3_g.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    $(function () {
-                        initializeStaticVideoLayout();
-                    });
-                </script>
-            </div>
-        </section>
-
-
-
-
-        <section id="video_stand" class="subsection">
-            <div class="title">
-                <h5>Dynamic Illustration Generation</h5>
-            </div>
-            <div class="description">
-                This model introduces the ability to generate dynamic illustrations,
-                creating seamless looping animations from static character illustrations while maintaining
-                high temporal consistency. It meets the demand for smooth and natural character movements in
-                game animations. Dynamic Illustration has a wide range of applications, such as character entry
-                animations and promotional videos.
-            </div>
-
-            <div class="flex flex-dynamic">
-
-                <div class="video-comparison-container">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/stand/v1_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <img id="beforeImage" src="assets/images/stand/v1_o.jpeg" alt="Before Image">
-                    </div>
-                    <div class="divider"></div>
-                </div>
-
-                <div class="video-comparison-container">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/stand/v2_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <img id="beforeImage" src="assets/images/stand/v2_o.png" alt="Before Image">
-                    </div>
-                    <div class="divider"></div>
-                </div>
-
-
-
-                <div class="video-comparison-container">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/stand/v3_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <img id="beforeImage" src="assets/images/stand/v3_o.png" alt="Before Image">
-                    </div>
-                    <div class="divider"></div>
-                </div>
-                <script>
-                    $(function () {
-                        initializeVideoComparison();
-                    });
-                </script>
-
-            </div>
-        </section>
-
-
-        <section id="video_sr" class="subsection">
-            <div class="title">
-                <h5>Generative Video Super-Resolution</h5>
-            </div>
-            <div class="description">
-                Our video super-resolution model is exceptional in the
-                game and anime fields, transforming low-resolution assets into impressive 2K videos. This greatly
-                improves visual quality without sacrificing detail, which is crucial for preserving the aesthetic
-                quality of game visuals.
-            </div>
-
-            <div class="video-grid-container">
-
-                <div class="video-comparison-container  video-component-wide">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/sr/v5_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <video id="beforeImage" src="./assets/videos/sr/v5_o.mp4" alt="Before Image" type="video/mp4"
-                            muted loop playsinline>
-                    </div>
-                    <div class="divider"></div>
-                </div>
-                <div class="video-comparison-container video-component-wide">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/sr/v4_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <video id="beforeImage" src="./assets/videos/sr/v4_o.mp4" alt="Before Image" type="video/mp4"
-                            muted loop playsinline>
-                    </div>
-                    <div class="divider"></div>
-                </div>
-                <div class="video-comparison-container  video-component-wide">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/sr/v2_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <video id="beforeImage" src="./assets/videos/sr/v2_o.mp4" alt="Before Image" type="video/mp4"
-                            muted loop playsinline>
-                    </div>
-                    <div class="divider"></div>
-                </div>
-
-                <div class="video-comparison-container video-component-wide">
-                    <div class="video-wrapper after">
-                        <video id="afterVideo" muted autoplay loop playsinline>
-                            <source src="./assets/videos/sr/v6_g.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="video-wrapper before">
-                        <video id="beforeImage" src="./assets/videos/sr/v6_o.mp4" alt="Before Image" type="video/mp4"
-                            muted loop playsinline>
-                    </div>
-                    <div class="divider"></div>
-                </div>
-
-
-
-                <script>
-                    $(function () {
-                        initializeVideoComparison();
-                    });
-                </script>
-
-            </div>
-        </section>
-
-
+    <section id="video_all" style="margin-top: 30px;">
         <section id="video_interactive" class="subsection">
-            <div class="title">
-                <h5>Interactive Game Video Generation</h5>
-            </div>
-            <div class="description">
-                The proposed model addresses key limitations in existing world modeling approaches by offering several
-                innovative advantages.
-                First, it unifies diverse keyboard/mouse inputs (e.g., W, A, S, D, Space) into a shared camera
-                representation space,
-                enabling fine-grained, temporally coherent control over game scene video synthesis while ensuring
-                physical plausibility during cinematographic operations.
-                Second, leveraging model distillation based on the Phased Consistency Model, it significantly
-                accelerates inference speed and enhances interaction responsiveness,
-                overcoming computational inefficiency challenges in dynamic scene generation. Additionally, the model
-                achieves high-fidelity dynamics by balancing detailed scene fidelity with long-sequence consistency,
-                surpassing traditional methods that struggle with flickering or abrupt transitions.
-                These advancements position Hunyuan-GameCraft as a robust solution for real-time, interactive game
-                environments requiring both precision and realism.
-            </div>
-
             <div class="flex flex-dynamic">
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_1" muted autoplay loop playsinline>
@@ -1584,7 +1078,6 @@
                         trees and bushes under a bright blue sky dotted with fluffy white clouds.
                     </div>
                 </div>
-
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_3" muted autoplay loop playsinline>
                         <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
@@ -1594,7 +1087,6 @@
                         dotted with fluffy clouds.
                     </div>
                 </div>
-
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_3" muted autoplay loop playsinline>
                         <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
@@ -1604,6 +1096,810 @@
                         the wall, a table with a candlestick, and barrels, evoking a rustic, intimate atmosphere.
                     </div>
                 </div>
+
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A vibrant, cartoon-style forest scene features a winding dirt path surrounded by lush green
+                        trees and bushes under a bright blue sky dotted with fluffy white clouds.
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A serene landscape features a river winding through lush green fields under a bright blue sky
+                        dotted with fluffy clouds.
+                    </div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_3" muted autoplay loop playsinline>
+                        <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
+                    </video>
+                    <div class="prompt">
+                        A warmly lit, cozy room with wooden beams, a bed with red bedding, a portrait leaning against
+                        the wall, a table with a candlestick, and barrels, evoking a rustic, intimate atmosphere.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section id="abstract">
+        <div class="title">
+            Abstract
+        </div>
+        <div class="description-justify">
+            Recent advances in diffusion-based and controllable video generation have enabled high-quality and temporally coherent video synthesis, laying the groundwork for immersive interactive gaming experiences. 
+            However, current methods face limitations in <strong>dynamics, generality, long-term consistency, and efficiency</strong>, which limit the ability to create various gameplay videos. 
+            To address these gaps, we introduce <strong>Hunyuan-GameCraft</strong>, a novel framework for high-dynamic interactive video generation in game environments. 
+            To achieve fine-grained action control, we unify standard keyboard and mouse inputs into a <strong>shared camera representation space</strong>, facilitating smooth interpolation between various camera and movement operations.
+            Then we propose a <strong>hybrid history-conditioned training strategy</strong> that extends video sequences autoregressively while preserving game scene information. 
+            Additionally, to enhance inference efficiency and playability, we achieve <strong>model distillation</strong> to reduce computational overhead while maintaining consistency across long temporal sequences, making it suitable for real-time deployment in complex interactive environments. 
+            The model is trained on a large-scale dataset comprising over <strong>one million</strong> gameplay recordings across over 100 AAA games, ensuring broad coverage and diversity, then fine-tuned on a carefully annotated synthetic dataset to enhance precision and control. 
+            The curated game scene data significantly improves the visual fidelity, realism and action controllability.  
+            Extensive experiments demonstrate that Hunyuan-GameCraft significantly outperforms existing models, advancing the realism and playability of interactive game video generation.
+        </div>
+    </section>
+
+    <section id="method">
+        <div class="title">
+            Method
+        </div>
+        <div class="flex-2 flex-dynamic-1" style="display: flex; justify-content: center; margin-top: 0px;">
+            <div class="prompt-wrap full-screen-wrap" style="position: relative; margin: 0 auto;">
+                <img src="./assets/images/pipeline.png" 
+                    alt="Hunyuan-GameCraft Pipeline Diagram"
+                    style="display: block; width: 70%; height: auto; margin: 0 auto; object-fit: contain;">
+            </div>
+        </div>
+        <div class="description-justify" style="margin-top: 10px;">
+            Overall architecture of Hunyuan-GameCraft. 
+            Given a reference image and the corresponding prompt, the keyboard or mouse signal, we transform these options to the continuous camera space. 
+            Then we design a light-weight action encoder to encode the input camera trajectory. 
+            The action and image features are added after patchify. 
+            For long video extension, we design a variable mask indicator, where 1 and 0 indicate history frames and predicted frames, respectively.
+        </div>
+        <div class="flex-2 flex-dynamic-1" style="display: flex; justify-content: center; margin-top: 0px;">
+            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                <div class="loading-placeholder" style="display: none;">
+                    <div class="loading-text">Loading...</div>
+                    <div class="loading-icon">✨</div>
+                </div>
+                <video controls autoplay playsinline muted loop
+                    onloadeddata="this.style.display='block'; this.previousElementSibling.style.display='none';"
+                    src="./assets/videos/main.mp4" style="display: block; width: 80%; margin: 0 auto;"></video>
+            </div>
+        </div>
+    </section>
+
+    <section id="compare">
+        <div class="title">
+            Qualitative Performance
+        </div>
+        <div class="description">
+            We demonstrate and compare control accuracy, long-term consistency preservation, and dynamic performance across multiple scenarios and styles to reveal the power of GameCraft.
+        </div>
+
+        <section id="single-action">
+            <div class="title" style="font-size: 30px;">
+                Single-action Comparison
+            </div>
+            <div class="description">
+                We compared <strong>control accuracy</strong> under single-action control with other interactive video methods in multiple game scenarios and art styles.
+            </div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/1.mp4" type="video/mp4"></video>
+                                <div class="prompt"> A dirt road winds through a serene forest landscape under a bright blue sky.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/2.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene winter landscape featuring snow-covered trees and a tranquil river.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/3.mp4" type="video/mp4"></video>
+                                <div class="prompt">A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/4.mp4" type="video/mp4"></video>
+                                <div class="prompt">A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/5.mp4" type="video/mp4"></video>
+                                <div class="prompt">A rustic village scene with thatched-roof huts and riders on horseback.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/6.mp4" type="video/mp4"></video>
+                                <div class="prompt">A small sailboat navigates through choppy waters under a vast sky.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Group 2 (Next 6 videos) -->
+                        <div class="slider-group">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/7.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, cartoon-style forest scene features a winding dirt path.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/8.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/9.mp4" type="video/mp4"></video>
+                                <div class="prompt">A warmly lit, cozy room with wooden beams and rustic decor.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/1.mp4" type="video/mp4"></video>
+                                <div class="prompt"> A dirt road winds through a serene forest landscape under a bright blue sky.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/2.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene winter landscape featuring snow-covered trees and a tranquil river.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/3.mp4" type="video/mp4"></video>
+                                <div class="prompt">A dark, sleek car is driving down a winding road at night.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+
+                        <!-- Group 2 (Next 6 videos) -->
+                        <div class="slider-group">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/7.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, cartoon-style forest scene features a winding dirt path.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/8.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/9.mp4" type="video/mp4"></video>
+                                <div class="prompt">A warmly lit, cozy room with wooden beams and rustic decor.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/1.mp4" type="video/mp4"></video>
+                                <div class="prompt"> A dirt road winds through a serene forest landscape under a bright blue sky.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/2.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene winter landscape featuring snow-covered trees and a tranquil river.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/3.mp4" type="video/mp4"></video>
+                                <div class="prompt">A dark, sleek car is driving down a winding road at night.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
+            </div>
+        </section>
+
+
+
+        <section id="multi-action" class="subsection">
+            <div class="title" style="font-size: 30px;">
+                Multi-action Comparison
+            </div>
+            <div class="description">
+                With multiple sequential operational signal inputs we focus on the quality, continuity and consistency of the overall output generation.
+            </div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active">
+                            <!-- Video 1 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            
+                            <!-- Video 2 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            
+                            <!-- Video 3 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
+                                </div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <!-- Video 4 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
+                                </div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            
+                            <!-- Video 5 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A rustic village scene with thatched-roof huts and riders on horseback.
+                                </div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            
+                            <!-- Video 6 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A small sailboat navigates through choppy waters under a vast sky.
+                                </div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Group 2 (Next 6 videos) -->
+                        <div class="slider-group">
+                            <!-- Video 7 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A vibrant, cartoon-style forest scene features a winding dirt path.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 8 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene landscape features a river winding through lush green fields.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 9 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A warmly lit, cozy room with wooden beams and rustic decor.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 1 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 2 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 3 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
+            </div>
+        </section>
+
+
+
+
+
+        <section id="history" class="subsection">
+            <div class="title" style="font-size: 30px;">
+                History Preservation
+            </div>
+            <div class="description">
+                For immersive game experiences, 3D consistency and scene coherence are essential for interactive video modeling of game scenes. Thanks to hybrid history condition, Hunyuan-GameCraft effectively preserves the original scene information after significant movement.
+            </div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active">
+                            <!-- Video 1 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            
+                            <!-- Video 2 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            
+                            <!-- Video 3 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
+                                </div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <!-- Video 4 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
+                                </div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            
+                            <!-- Video 5 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A rustic village scene with thatched-roof huts and riders on horseback.
+                                </div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            
+                            <!-- Video 6 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A small sailboat navigates through choppy waters under a vast sky.
+                                </div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Group 2 (Next 6 videos) -->
+                        <div class="slider-group">
+                            <!-- Video 7 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A vibrant, cartoon-style forest scene features a winding dirt path.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 8 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene landscape features a river winding through lush green fields.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 9 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A warmly lit, cozy room with wooden beams and rustic decor.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 1 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 2 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 3 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
+            </div>
+        </section>
+
+
+        <section id="dynamic" class="subsection">
+            <div class="title" style="font-size: 30px;">
+                Dynamic Performance
+            </div>
+            <div class="description">
+                Game scenarios require more dynamic capabilities, including NPC, operating characters and other creatures. Hunyuan-GameCraft demonstrates significant dynamic performance superiors.
+            </div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active">
+                            <!-- Video 1 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            
+                            <!-- Video 2 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            
+                            <!-- Video 3 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
+                                </div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <!-- Video 4 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
+                                </div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            
+                            <!-- Video 5 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A rustic village scene with thatched-roof huts and riders on horseback.
+                                </div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            
+                            <!-- Video 6 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A small sailboat navigates through choppy waters under a vast sky.
+                                </div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Group 2 (Next 6 videos) -->
+                        <div class="slider-group">
+                            <!-- Video 7 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A vibrant, cartoon-style forest scene features a winding dirt path.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 8 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene landscape features a river winding through lush green fields.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 9 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A warmly lit, cozy room with wooden beams and rustic decor.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 1 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 2 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 3 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
+            </div>
+        </section>
+
+
+        <section id="application" class="subsection">
+            <div class="title" style="font-size: 30px;">
+                Application
+            </div>
+            <div class="description">
+                The generated results of the model under more applications are shown here to further illustrate the generalizability.
+            </div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active">
+                            <!-- Video 1 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            
+                            <!-- Video 2 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            
+                            <!-- Video 3 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
+                                </div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <!-- Video 4 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
+                                </div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            
+                            <!-- Video 5 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A rustic village scene with thatched-roof huts and riders on horseback.
+                                </div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            
+                            <!-- Video 6 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A small sailboat navigates through choppy waters under a vast sky.
+                                </div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Group 2 (Next 6 videos) -->
+                        <div class="slider-group">
+                            <!-- Video 7 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A vibrant, cartoon-style forest scene features a winding dirt path.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 8 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene landscape features a river winding through lush green fields.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 9 -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A warmly lit, cozy room with wooden beams and rustic decor.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 1 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dirt road winds through a serene forest landscape under a bright blue sky.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 2 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
+                                </div>
+                            </div>
+                            
+                            <!-- Video 3 (Duplicate for demo) -->
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline>
+                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
+                                </video>
+                                <div class="prompt">
+                                    A dark, sleek car is driving down a winding road at night.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
             </div>
         </section>
 
@@ -1626,5 +1922,93 @@
 <script src="assets/js/video-init.js"></script>
 <script src="assets/js/image-preloader.js"></script>
 <script src="assets/js/twentytwenty-init.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sliders = document.querySelectorAll('.slider-container');
+        
+        sliders.forEach(slider => {
+            const track = slider.querySelector('.slider-track');
+            const groups = slider.querySelectorAll('.slider-group');
+            const prevBtn = slider.querySelector('.slider-nav.prev');
+            const nextBtn = slider.querySelector('.slider-nav.next');
+            
+            let currentGroup = 0;
+            const totalGroups = groups.length;
+            
+            // Clone first and last groups for seamless looping
+            const firstClone = groups[0].cloneNode(true);
+            const lastClone = groups[totalGroups-1].cloneNode(true);
+            track.insertBefore(lastClone, groups[0]);
+            track.appendChild(firstClone);
+            
+            // Update total groups count
+            const extendedGroups = slider.querySelectorAll('.slider-group');
+            
+            // Set initial position (showing the real first group)
+            track.style.transform = 'translateX(-100%)';
+            
+            function slide(direction) {
+                // Always animate transitions
+                track.style.transition = 'transform 0.5s ease';
+                
+                currentGroup += direction;
+                const translateX = -(currentGroup + 1) * 100;
+                track.style.transform = `translateX(${translateX}%)`;
+            }
+            
+            // Handle transition end for infinite looping
+            track.addEventListener('transitionend', function() {
+                // If we've scrolled past the clone of the last group
+                if (currentGroup >= totalGroups) {
+                    track.style.transition = 'none';
+                    currentGroup = 0;
+                    track.style.transform = 'translateX(-100%)';
+                    void track.offsetWidth; // Force reflow
+                }
+                // If we've scrolled before the clone of the first group
+                else if (currentGroup < 0) {
+                    track.style.transition = 'none';
+                    currentGroup = totalGroups - 1;
+                    track.style.transform = `translateX(${-(currentGroup + 1) * 100}%)`;
+                    void track.offsetWidth; // Force reflow
+                }
+                
+                // Update active classes for indicators if needed
+                updateActiveGroups();
+            });
+            
+            function updateActiveGroups() {
+                // Remove active class from all groups
+                extendedGroups.forEach(group => group.classList.remove('active'));
+                
+                // Calculate the real group index (accounting for clones)
+                let realIndex = currentGroup;
+                if (currentGroup < 0) realIndex = totalGroups - 1;
+                if (currentGroup >= totalGroups) realIndex = 0;
+                
+                // Set active class to current group
+                extendedGroups[realIndex + 1].classList.add('active');
+            }
+            
+            // Initialize
+            updateActiveGroups();
+            prevBtn.addEventListener('click', () => slide(-1));
+            nextBtn.addEventListener('click', () => slide(1));
+            
+            // Auto-advance changed to 10 seconds (10000ms)
+            let autoSlideInterval = setInterval(() => slide(1), 10000);
+            
+            // Changed to monitor entire slider-container instead of just wrapper
+            slider.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            slider.addEventListener('mouseleave', () => {
+                autoSlideInterval = setInterval(() => slide(1), 10000);
+            });
+        });
+    });
+</script>
 
 </html>
