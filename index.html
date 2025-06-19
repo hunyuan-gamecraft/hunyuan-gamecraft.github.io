@@ -589,7 +589,7 @@
         body {
             font-family: 'Tencent', sans-serif;
             /* background: #fff; */
-            padding: 40px;
+            /* padding: 40px; */
             text-align: center;
         }
 
@@ -952,23 +952,93 @@
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: repeat(3, 1fr);
             }
-            
+
             .slider-nav {
                 padding: 15px 10px;
                 font-size: 18px;
             }
         }
+
+
+
+        /* 修改后的 intro section 样式 */
+        #intro {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            /* font-family: 'TencentBold'; */
+            /* background-color: #000; 添加黑色背景以防视频加载时出现空白 */
+        }
+        
+        /* 新增的遮罩层样式 */
+        #intro::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明遮罩，0.3是透明度，可根据需要调整 */
+            z-index: 1; /* 确保遮罩层在视频上方，内容下方 */
+        }
+        
+        #intro .content {
+            position: relative;
+            z-index: 2; /* 确保内容显示在遮罩层上方 */
+            text-align: center;
+            color: white;
+            padding: 20px;
+            /* background-color: rgba(0, 0, 0, 0.5); 内容区域也添加半透明背景 */
+            border-radius: 10px;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+        
+        #intro video {
+            position: absolute;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0; /* 视频在最底层 */
+            object-fit: contain;
+        }
+        
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3; /* 滚动提示在内容层上方 */
+            color: white;
+            font-size: 16px;
+            animation: bounce 2s infinite;
+            background-color: rgba(0,0,0,0.5);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 
 <body>
-    <section id="intro">
-        <div class="content">
+    <section id="intro" style="min-width: 100%;min-height: 100%;">
+        <video id="teaser-video" muted autoplay loop playsinline>
+            <source src="./assets/videos/teaser.mov" type="video/mp4">
+        </video>
+        <div class="content" style="font-family: 'TencentBold';">
             <h1><strong>Hunyuan-GameCraft</strong></h1>
             <h2><strong>High-dynamic Interactive Game Video Generation with Hybrid History Condition</strong></h2>
-            <div class="authors-info" style="background-color: black; color: white; font-family: Tencent, sans-serif; text-align: center; max-width: 50%; margin: 0 auto;">
+            <div class="authors-info" style="color: white; font-family: Tencent, sans-serif; text-align: center; max-width: 70%; margin: 0 auto;">
+            <!-- <div class="authors-info" style="color: white; text-align: center; max-width: 100%; margin: 0 auto;"></div> -->
                 <!-- 作者行1 -->
-                <div class="author-row" style="margin-bottom: 10px;">
+                <div class="author-row" style="margin-bottom: 10px;font-family: 'TencentBold';">
                     <span class="author" style="margin-right: 15px;">Jiaqi Li<sup style="font-size: 1em;">1,2*</sup></span>
                     <span class="author" style="margin-right: 15px;">Junshu Tang<sup style="font-size: 1em;">1*</sup></span>
                     <span class="author" style="margin-right: 15px;">Zhiyong Xu<sup style="font-size: 1em;">1</sup></span>
@@ -976,7 +1046,7 @@
                 </div>
                 
                 <!-- 作者行2 -->
-                <div class="author-row" style="margin-bottom: 10px;">
+                <div class="author-row" style="margin-bottom: 10px;font-family: 'TencentBold';">
                     <span class="author" style="margin-right: 15px;">Yuan Zhou<sup style="font-size: 1em;">1</sup></span>
                     <span class="author" style="margin-right: 15px;">Shuai Shao<sup style="font-size: 1em;">1</sup></span>
                     <span class="author" style="margin-right: 15px;">Tianbao Yu<sup style="font-size: 1em;">1</sup></span>
@@ -985,11 +1055,11 @@
                 </div>
                 
                 <!-- 机构信息 -->
-                <div class="institutions" style="font-size: 0.8em; line-height: 1.6; margin-bottom: 8px;">
+                <div class="institutions" style="font-size: 0.8em; line-height: 1.6; margin-bottom: 8px;font-family: 'TencentBold';">
                     <span class="author" style="margin-right: 30px;">1 Tencent Hunyuan</span>
                     <span class="author">2 Huazhong University of Science and Technology</span>
                 </div>
-                <div class="institutions" style="font-size: 0.8em; line-height: 1.6; margin-bottom: 15px;">
+                <div class="institutions" style="font-size: 0.8em; line-height: 1.6; margin-bottom: 15px;font-family: 'TencentBold';">
                     <span class="author" style="margin-right: 30px;">* Equal Contribution</span>
                     <span class="author">† Corresponding author</span>
                     <!-- <span class="author">§ Work is done during the internship at Tencent Hunyuan</span> -->
@@ -1006,126 +1076,6 @@
                 <span>Getting Started</span>
             </a> -->
         </div>
-    </section>
-
-    <section id="video_all" style="margin-top: 30px;">
-        <section id="video_interactive" class="subsection">
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                    </video>
-
-                    <div class="prompt">
-                        A dirt road winds through a serene forest landscape under a bright blue sky.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_2" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A serene winter landscape featuring snow-covered trees and a tranquil river.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A dark, sleek car is driving down a winding road at night, its headlights illuminating the path
-                        ahead.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery and a serene
-                        pond, set against a backdrop of towering, jagged mountains under a twilight sky.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A rustic village scene with thatched-roof huts, wooden fences, and two riders on horseback
-                        traversing a muddy path.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A small sailboat navigates through choppy waters under a vast sky.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A vibrant, cartoon-style forest scene features a winding dirt path surrounded by lush green
-                        trees and bushes under a bright blue sky dotted with fluffy white clouds.
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A serene landscape features a river winding through lush green fields under a bright blue sky
-                        dotted with fluffy clouds.
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A warmly lit, cozy room with wooden beams, a bed with red bedding, a portrait leaning against
-                        the wall, a table with a candlestick, and barrels, evoking a rustic, intimate atmosphere.
-                    </div>
-                </div>
-
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A vibrant, cartoon-style forest scene features a winding dirt path surrounded by lush green
-                        trees and bushes under a bright blue sky dotted with fluffy white clouds.
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A serene landscape features a river winding through lush green fields under a bright blue sky
-                        dotted with fluffy clouds.
-                    </div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_3" muted autoplay loop playsinline>
-                        <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
-                    </video>
-                    <div class="prompt">
-                        A warmly lit, cozy room with wooden beams, a bed with red bedding, a portrait leaning against
-                        the wall, a table with a candlestick, and barrels, evoking a rustic, intimate atmosphere.
-                    </div>
-                </div>
-            </div>
-        </section>
     </section>
 
     <section id="abstract">
@@ -1176,7 +1126,7 @@
         </div>
     </section>
 
-    <section id="compare">
+    <section id="video_all">
         <div class="title">
             Qualitative Performance
         </div>
@@ -1198,102 +1148,240 @@
                         <!-- Group 1 (First 6 videos) -->
                         <div class="slider-group active">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/1.mp4" type="video/mp4"></video>
-                                <div class="prompt"> A dirt road winds through a serene forest landscape under a bright blue sky.</div>
+                                <img src="./assets/videos/singleaction/input/00.png" alt="00">
+                                <div class="prompt">A vibrant, sunlit street lined with colorful European-style buildings and a tram track stretches into the distance, framed by modern skyscrapers in the background.</div>
                                 <div class="method-label">Input</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/2.mp4" type="video/mp4"></video>
-                                <div class="prompt">A serene winter landscape featuring snow-covered trees and a tranquil river.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/00.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, sunlit street lined with colorful European-style buildings and a tram track stretches into the distance, framed by modern skyscrapers in the background.</div>
                                 <div class="method-label">Ours</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/3.mp4" type="video/mp4"></video>
-                                <div class="prompt">A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/00.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, sunlit street lined with colorful European-style buildings and a tram track stretches into the distance, framed by modern skyscrapers in the background.</div>
                                 <div class="method-label">Matrix-Game</div>
                             </div>
                             
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/4.mp4" type="video/mp4"></video>
-                                <div class="prompt">A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/00.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, sunlit street lined with colorful European-style buildings and a tram track stretches into the distance, framed by modern skyscrapers in the background.</div>
                                 <div class="method-label">MotionCtrl</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/5.mp4" type="video/mp4"></video>
-                                <div class="prompt">A rustic village scene with thatched-roof huts and riders on horseback.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/00.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, sunlit street lined with colorful European-style buildings and a tram track stretches into the distance, framed by modern skyscrapers in the background.</div>
                                 <div class="method-label">CameraCtrl</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/6.mp4" type="video/mp4"></video>
-                                <div class="prompt">A small sailboat navigates through choppy waters under a vast sky.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/00.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, sunlit street lined with colorful European-style buildings and a tram track stretches into the distance, framed by modern skyscrapers in the background.</div>
                                 <div class="method-label">WanX-Cam</div>
                             </div>
                         </div>
                         
                         <!-- Group 2 (Next 6 videos) -->
-                        <div class="slider-group">
+                        <div class="slider-group active">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/7.mp4" type="video/mp4"></video>
-                                <div class="prompt">A vibrant, cartoon-style forest scene features a winding dirt path.</div>
+                                <img src="./assets/videos/singleaction/input/01.png" alt="01">
+                                <div class="prompt">A serene landscape features a river winding through lush green fields under a bright blue sky dotted with fluffy clouds.</div>
                                 <div class="method-label">Input</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/8.mp4" type="video/mp4"></video>
-                                <div class="prompt">A serene landscape features a river winding through lush green fields.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields under a bright blue sky dotted with fluffy clouds.</div>
                                 <div class="method-label">Ours</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/9.mp4" type="video/mp4"></video>
-                                <div class="prompt">A warmly lit, cozy room with wooden beams and rustic decor.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields under a bright blue sky dotted with fluffy clouds.</div>
                                 <div class="method-label">Matrix-Game</div>
                             </div>
+                            
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/1.mp4" type="video/mp4"></video>
-                                <div class="prompt"> A dirt road winds through a serene forest landscape under a bright blue sky.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields under a bright blue sky dotted with fluffy clouds.</div>
                                 <div class="method-label">MotionCtrl</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/2.mp4" type="video/mp4"></video>
-                                <div class="prompt">A serene winter landscape featuring snow-covered trees and a tranquil river.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields under a bright blue sky dotted with fluffy clouds.</div>
                                 <div class="method-label">CameraCtrl</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/3.mp4" type="video/mp4"></video>
-                                <div class="prompt">A dark, sleek car is driving down a winding road at night.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features a river winding through lush green fields under a bright blue sky dotted with fluffy clouds.</div>
                                 <div class="method-label">WanX-Cam</div>
                             </div>
                         </div>
 
-                        <!-- Group 2 (Next 6 videos) -->
-                        <div class="slider-group">
+
+                        <div class="slider-group active">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/7.mp4" type="video/mp4"></video>
-                                <div class="prompt">A vibrant, cartoon-style forest scene features a winding dirt path.</div>
+                                <img src="./assets/videos/singleaction/input/08.png" alt="08">
+                                <div class="prompt">A vibrant, idyllic garden scene features lush greenery, blooming purple flowers, a rustic wooden fence, and a small basket resting on the ground amidst the natural beauty.</div>
                                 <div class="method-label">Input</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/8.mp4" type="video/mp4"></video>
-                                <div class="prompt">A serene landscape features a river winding through lush green fields.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/08.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, idyllic garden scene features lush greenery, blooming purple flowers, a rustic wooden fence, and a small basket resting on the ground amidst the natural beauty.</div>
                                 <div class="method-label">Ours</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/9.mp4" type="video/mp4"></video>
-                                <div class="prompt">A warmly lit, cozy room with wooden beams and rustic decor.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/08.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, idyllic garden scene features lush greenery, blooming purple flowers, a rustic wooden fence, and a small basket resting on the ground amidst the natural beauty.</div>
                                 <div class="method-label">Matrix-Game</div>
                             </div>
+                            
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/1.mp4" type="video/mp4"></video>
-                                <div class="prompt"> A dirt road winds through a serene forest landscape under a bright blue sky.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/08.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, idyllic garden scene features lush greenery, blooming purple flowers, a rustic wooden fence, and a small basket resting on the ground amidst the natural beauty.</div>
                                 <div class="method-label">MotionCtrl</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/2.mp4" type="video/mp4"></video>
-                                <div class="prompt">A serene winter landscape featuring snow-covered trees and a tranquil river.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/08.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, idyllic garden scene features lush greenery, blooming purple flowers, a rustic wooden fence, and a small basket resting on the ground amidst the natural beauty.</div>
                                 <div class="method-label">CameraCtrl</div>
                             </div>
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline><source src="./assets/videos/interactive/3.mp4" type="video/mp4"></video>
-                                <div class="prompt">A dark, sleek car is driving down a winding road at night.</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/08.mp4" type="video/mp4"></video>
+                                <div class="prompt">A vibrant, idyllic garden scene features lush greenery, blooming purple flowers, a rustic wooden fence, and a small basket resting on the ground amidst the natural beauty.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+
+                        <div class="slider-group active">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <img src="./assets/videos/singleaction/input/11.png" alt="11">
+                                <div class="prompt">A sniper rifle with a mounted scope is positioned on a rocky outcrop overlooking a mountainous landscape under a clear sky.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/11.mp4" type="video/mp4"></video>
+                                <div class="prompt">A sniper rifle with a mounted scope is positioned on a rocky outcrop overlooking a mountainous landscape under a clear sky.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/11.mp4" type="video/mp4"></video>
+                                <div class="prompt">A sniper rifle with a mounted scope is positioned on a rocky outcrop overlooking a mountainous landscape under a clear sky.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/11.mp4" type="video/mp4"></video>
+                                <div class="prompt">A sniper rifle with a mounted scope is positioned on a rocky outcrop overlooking a mountainous landscape under a clear sky.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/11.mp4" type="video/mp4"></video>
+                                <div class="prompt">A sniper rifle with a mounted scope is positioned on a rocky outcrop overlooking a mountainous landscape under a clear sky.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/11.mp4" type="video/mp4"></video>
+                                <div class="prompt">A sniper rifle with a mounted scope is positioned on a rocky outcrop overlooking a mountainous landscape under a clear sky.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+
+                        <div class="slider-group active">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <img src="./assets/videos/singleaction/input/13.png" alt="13">
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/13.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/13.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/13.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/13.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/13.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+
+                        <div class="slider-group active">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <img src="./assets/videos/singleaction/input/19.png" alt="19">
+                                <div class="prompt">A picturesque village scene featuring quaint houses, a windmill, lush greenery, and a serene mountain backdrop under a bright blue sky.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/19.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque village scene featuring quaint houses, a windmill, lush greenery, and a serene mountain backdrop under a bright blue sky.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/19.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque village scene featuring quaint houses, a windmill, lush greenery, and a serene mountain backdrop under a bright blue sky.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/19.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque village scene featuring quaint houses, a windmill, lush greenery, and a serene mountain backdrop under a bright blue sky.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/19.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque village scene featuring quaint houses, a windmill, lush greenery, and a serene mountain backdrop under a bright blue sky.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/19.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque village scene featuring quaint houses, a windmill, lush greenery, and a serene mountain backdrop under a bright blue sky.</div>
+                                <div class="method-label">WanX-Cam</div>
+                            </div>
+                        </div>
+
+                        <div class="slider-group active">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <img src="./assets/videos/singleaction/input/22.png" alt="22">
+                                <div class="prompt">A picturesque rural landscape featuring a traditional windmill surrounded by golden fields under a partly cloudy sky.</div>
+                                <div class="method-label">Input</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/our/22.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque rural landscape featuring a traditional windmill surrounded by golden fields under a partly cloudy sky.</div>
+                                <div class="method-label">Ours</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mat/22.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque rural landscape featuring a traditional windmill surrounded by golden fields under a partly cloudy sky.</div>
+                                <div class="method-label">Matrix-Game</div>
+                            </div>
+                            
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/mon/22.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque rural landscape featuring a traditional windmill surrounded by golden fields under a partly cloudy sky.</div>
+                                <div class="method-label">MotionCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/cam/22.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque rural landscape featuring a traditional windmill surrounded by golden fields under a partly cloudy sky.</div>
+                                <div class="method-label">CameraCtrl</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/singleaction/wan/22.mp4" type="video/mp4"></video>
+                                <div class="prompt">A picturesque rural landscape featuring a traditional windmill surrounded by golden fields under a partly cloudy sky.</div>
                                 <div class="method-label">WanX-Cam</div>
                             </div>
                         </div>
@@ -1317,134 +1405,53 @@
                 <div class="slider-wrapper">
                     <div class="slider-track">
                         <!-- Group 1 (First 6 videos) -->
-                        <div class="slider-group active">
-                            <!-- Video 1 -->
+                        <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                                <div class="method-label">Input</div>
-                            </div>
-                            
-                            <!-- Video 2 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long01_our.mp4" type="video/mp4"></video>
+                                <div class="prompt">A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery and a serene pond, set against a backdrop of towering, jagged mountains under a twilight sky.</div>
                                 <div class="method-label">Ours</div>
                             </div>
-                            
-                            <!-- Video 3 -->
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
-                                </div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long01_mat.mp4" type="video/mp4"></video>
+                                <div class="prompt">A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery and a serene pond, set against a backdrop of towering, jagged mountains under a twilight sky.</div>
                                 <div class="method-label">Matrix-Game</div>
                             </div>
-                            
-                            <!-- Video 4 -->
+                        </div>
+                        <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
-                                </div>
-                                <div class="method-label">MotionCtrl</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long02_our.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">Ours</div>
                             </div>
-                            
-                            <!-- Video 5 -->
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A rustic village scene with thatched-roof huts and riders on horseback.
-                                </div>
-                                <div class="method-label">CameraCtrl</div>
-                            </div>
-                            
-                            <!-- Video 6 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A small sailboat navigates through choppy waters under a vast sky.
-                                </div>
-                                <div class="method-label">WanX-Cam</div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long02_our.mp4" type="video/mp4"></video>
+                                <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
+                                <div class="method-label">Matrix-Game</div>
                             </div>
                         </div>
-                        
-                        <!-- Group 2 (Next 6 videos) -->
-                        <div class="slider-group">
-                            <!-- Video 7 -->
+
+                        <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A vibrant, cartoon-style forest scene features a winding dirt path.
-                                </div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long03_our01.mov" type="video/mp4"></video>
+                                <div class="prompt">A cozy, whimsical bedroom filled with colorful decorations, books, and personal items, bathed in soft, ambient lighting.</div>
+                                <div class="method-label">Ours</div>
                             </div>
-                            
-                            <!-- Video 8 -->
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene landscape features a river winding through lush green fields.
-                                </div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long03_our02.mov" type="video/mp4"></video>
+                                <div class="prompt">A cozy, whimsical bedroom filled with colorful decorations, books, and personal items, bathed in soft, ambient lighting.</div>
+                                <div class="method-label">Ours</div>
                             </div>
-                            
-                            <!-- Video 9 -->
+                        </div>
+                        <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A warmly lit, cozy room with wooden beams and rustic decor.
-                                </div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long04_our01.mov" type="video/mp4"></video>
+                                <div class="prompt">A sunlit courtyard features white adobe buildings with arched doorways and windows, surrounded by lush greenery and palm trees, creating a serene Mediterranean ambiance.</div>
+                                <div class="method-label">Ours</div>
                             </div>
-                            
-                            <!-- Video 1 (Duplicate for demo) -->
                             <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 2 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 3 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night.
-                                </div>
+                                <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long04_our02.mov" type="video/mp4"></video>
+                                <div class="prompt">A sunlit courtyard features white adobe buildings with arched doorways and windows, surrounded by lush greenery and palm trees, creating a serene Mediterranean ambiance.</div>
+                                <div class="method-label">Ours</div>
                             </div>
                         </div>
                     </div>
@@ -1464,293 +1471,68 @@
             <div class="description">
                 For immersive game experiences, 3D consistency and scene coherence are essential for interactive video modeling of game scenes. Thanks to hybrid history condition, Hunyuan-GameCraft effectively preserves the original scene information after significant movement.
             </div>
-            <div class="slider-container">
-                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
-                <div class="slider-wrapper">
-                    <div class="slider-track">
-                        <!-- Group 1 (First 6 videos) -->
-                        <div class="slider-group active">
-                            <!-- Video 1 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                                <div class="method-label">Input</div>
-                            </div>
-                            
-                            <!-- Video 2 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                                <div class="method-label">Ours</div>
-                            </div>
-                            
-                            <!-- Video 3 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
-                                </div>
-                                <div class="method-label">Matrix-Game</div>
-                            </div>
-                            
-                            <!-- Video 4 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
-                                </div>
-                                <div class="method-label">MotionCtrl</div>
-                            </div>
-                            
-                            <!-- Video 5 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A rustic village scene with thatched-roof huts and riders on horseback.
-                                </div>
-                                <div class="method-label">CameraCtrl</div>
-                            </div>
-                            
-                            <!-- Video 6 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A small sailboat navigates through choppy waters under a vast sky.
-                                </div>
-                                <div class="method-label">WanX-Cam</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Group 2 (Next 6 videos) -->
-                        <div class="slider-group">
-                            <!-- Video 7 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A vibrant, cartoon-style forest scene features a winding dirt path.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 8 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene landscape features a river winding through lush green fields.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 9 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A warmly lit, cozy room with wooden beams and rustic decor.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 1 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 2 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 3 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/09fb1fc9828fb9d6d2fdd2312b9968044d832c3d5902ed943ff83c1d.mp4" type="video/mp4"></video>
+                    <div class="prompt">A serene temple courtyard features multiple seated Buddha statues surrounded by misty, lush greenery under a cloudy sky.</div>
                 </div>
-                <button class="slider-nav next" onclick="slide(1)">❯</button>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/aca4fd926dfae0d7bde2b5f804a4cc8e.mov" type="video/mp4"></video>
+                    <div class="prompt">A sunken pirate ship rests on a sandy beach surrounded by lush tropical vegetation and towering cliffs under a bright blue sky.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/af952e1f7986f755ec1229bffad0e650397d4fe6bd9c23d1ca1e73aa.mp4" type="video/mp4"></video>
+                    <div class="prompt">A serene forest scene featuring a wooden bridge crossing over a small stream, surrounded by lush green trees and vibrant wildflowers under a bright blue sky.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/d361ba405c1c7b895f293ddb56c919c6.mov" type="video/mp4"></video>
+                    <div class="prompt">A scenic view of a forested hillside under a clear blue sky.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/e72c7119e6f917b0ab2acf3ca59010df6c042a36b5eef555c0ad3be0.mp4" type="video/mp4"></video>
+                    <div class="prompt">A serene landscape features vibrant hot air balloons floating above a lush green meadow with snow-capped mountains in the background under a bright blue sky.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/f9af939cfafdba1edabade7a5c2e3facdf7e05a923abd8e1bb84df43.mp4" type="video/mp4"></video>
+                    <div class="prompt">A wide, open street lined with trees and modern buildings under a partly cloudy sky.</div>
+                </div>
             </div>
         </section>
 
 
-        <section id="dynamic" class="subsection">
+        <section id="third" class="subsection">
             <div class="title" style="font-size: 30px;">
-                Dynamic Performance
+                Third-person Perspective
             </div>
             <div class="description">
-                Game scenarios require more dynamic capabilities, including NPC, operating characters and other creatures. Hunyuan-GameCraft demonstrates significant dynamic performance superiors.
+                <!-- Game scenarios require more dynamic capabilities, including NPC, operating characters and other creatures. Hunyuan-GameCraft demonstrates significant dynamic performance superiors. -->
+                XXXX
             </div>
-            <div class="slider-container">
-                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
-                <div class="slider-wrapper">
-                    <div class="slider-track">
-                        <!-- Group 1 (First 6 videos) -->
-                        <div class="slider-group active">
-                            <!-- Video 1 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                                <div class="method-label">Input</div>
-                            </div>
-                            
-                            <!-- Video 2 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                                <div class="method-label">Ours</div>
-                            </div>
-                            
-                            <!-- Video 3 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
-                                </div>
-                                <div class="method-label">Matrix-Game</div>
-                            </div>
-                            
-                            <!-- Video 4 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
-                                </div>
-                                <div class="method-label">MotionCtrl</div>
-                            </div>
-                            
-                            <!-- Video 5 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A rustic village scene with thatched-roof huts and riders on horseback.
-                                </div>
-                                <div class="method-label">CameraCtrl</div>
-                            </div>
-                            
-                            <!-- Video 6 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A small sailboat navigates through choppy waters under a vast sky.
-                                </div>
-                                <div class="method-label">WanX-Cam</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Group 2 (Next 6 videos) -->
-                        <div class="slider-group">
-                            <!-- Video 7 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A vibrant, cartoon-style forest scene features a winding dirt path.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 8 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene landscape features a river winding through lush green fields.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 9 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A warmly lit, cozy room with wooden beams and rustic decor.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 1 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 2 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 3 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/01.mp4" type="video/mp4"></video>
+                    <div class="prompt">XXXXX</div>
                 </div>
-                <button class="slider-nav next" onclick="slide(1)">❯</button>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/02.mp4" type="video/mp4"></video>
+                    <div class="prompt">XXXXX</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/03.mp4" type="video/mp4"></video>
+                    <div class="prompt">XXXXX</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/04.mp4" type="video/mp4"></video>
+                    <div class="prompt">XXXXX</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/04.mp4" type="video/mp4"></video>
+                    <div class="prompt">XXXXX</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/04.mp4" type="video/mp4"></video>
+                    <div class="prompt">XXXXX</div>
+                </div>
             </div>
         </section>
 
@@ -1762,144 +1544,31 @@
             <div class="description">
                 The generated results of the model under more applications are shown here to further illustrate the generalizability.
             </div>
-            <div class="slider-container">
-                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
-                <div class="slider-wrapper">
-                    <div class="slider-track">
-                        <!-- Group 1 (First 6 videos) -->
-                        <div class="slider-group active">
-                            <!-- Video 1 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                                <div class="method-label">Input</div>
-                            </div>
-                            
-                            <!-- Video 2 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                                <div class="method-label">Ours</div>
-                            </div>
-                            
-                            <!-- Video 3 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.
-                                </div>
-                                <div class="method-label">Matrix-Game</div>
-                            </div>
-                            
-                            <!-- Video 4 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/4.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A pixelated, blocky landscape featuring a wooden house surrounded by lush greenery.
-                                </div>
-                                <div class="method-label">MotionCtrl</div>
-                            </div>
-                            
-                            <!-- Video 5 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/5.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A rustic village scene with thatched-roof huts and riders on horseback.
-                                </div>
-                                <div class="method-label">CameraCtrl</div>
-                            </div>
-                            
-                            <!-- Video 6 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/6.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A small sailboat navigates through choppy waters under a vast sky.
-                                </div>
-                                <div class="method-label">WanX-Cam</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Group 2 (Next 6 videos) -->
-                        <div class="slider-group">
-                            <!-- Video 7 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/7.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A vibrant, cartoon-style forest scene features a winding dirt path.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 8 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/8.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene landscape features a river winding through lush green fields.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 9 -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/9.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A warmly lit, cozy room with wooden beams and rustic decor.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 1 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/1.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dirt road winds through a serene forest landscape under a bright blue sky.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 2 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/2.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A serene winter landscape featuring snow-covered trees and a tranquil river.
-                                </div>
-                            </div>
-                            
-                            <!-- Video 3 (Duplicate for demo) -->
-                            <div class="prompt-wrap full-screen-wrap">
-                                <video muted autoplay loop playsinline>
-                                    <source src="./assets/videos/interactive/3.mp4" type="video/mp4">
-                                </video>
-                                <div class="prompt">
-                                    A dark, sleek car is driving down a winding road at night.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="flex flex-dynamic">
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong01.mp4" type="video/mp4"></video>
+                    <div class="prompt">A white dog wearing a blue harness runs energetically along a grassy path surrounded by greenery.</div>
                 </div>
-                <button class="slider-nav next" onclick="slide(1)">❯</button>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong02.mp4" type="video/mp4"></video>
+                    <div class="prompt">A young girl in a white dress runs joyfully through a grassy field under a bright blue sky.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong03.mp4" type="video/mp4"></video>
+                    <div class="prompt">A young girl blows bubbles in a sunny park setting, surrounded by vibrant colors and natural light.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong04.mp4" type="video/mp4"></video>
+                    <div class="prompt">A young girl in a blue vest blows bubbles in a sunny park, surrounded by trees and a path.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong05.mp4" type="video/mp4"></video>
+                    <div class="prompt">A man wearing a hat and vest sits on a brick wall, playing a guitar, with a scenic view of trees and buildings in the background.</div>
+                </div>
+                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong07.mp4" type="video/mp4"></video>
+                    <div class="prompt">A man sits on a brick wall, playing a red guitar, with a scenic view of trees and buildings in the background.</div>
+                </div>
             </div>
         </section>
 
