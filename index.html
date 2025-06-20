@@ -1417,7 +1417,7 @@
                                 <div class="method-label">Matrix-Game</div>
                             </div>
                         </div>
-                        <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
+                        <!-- <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
                             <div class="prompt-wrap full-screen-wrap">
                                 <video muted autoplay loop playsinline><source src="./assets/videos/multiaction/long02_our.mp4" type="video/mp4"></video>
                                 <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
@@ -1428,7 +1428,7 @@
                                 <div class="prompt">A charming Parisian street scene featuring "Chez Marceau Brasserie" with its vibrant red awning and outdoor seating area, surrounded by quaint shops and lush greenery under a bright blue sky.</div>
                                 <div class="method-label">Matrix-Game</div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
                             <div class="prompt-wrap full-screen-wrap">
@@ -1471,31 +1471,56 @@
             <div class="description">
                 For immersive game experiences, 3D consistency and scene coherence are essential for interactive video modeling of game scenes. Thanks to hybrid history condition, Hunyuan-GameCraft effectively preserves the original scene information after significant movement.
             </div>
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/09fb1fc9828fb9d6d2fdd2312b9968044d832c3d5902ed943ff83c1d.mp4" type="video/mp4"></video>
-                    <div class="prompt">A serene temple courtyard features multiple seated Buddha statues surrounded by misty, lush greenery under a cloudy sky.</div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active" style="grid-template-columns: repeat(3, 1fr);grid-template-rows: auto;">
+                            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/09fb1fc9828fb9d6d2fdd2312b9968044d832c3d5902ed943ff83c1d.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene temple courtyard features multiple seated Buddha statues surrounded by misty, lush greenery under a cloudy sky.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/aca4fd926dfae0d7bde2b5f804a4cc8e.mov" type="video/mp4"></video>
+                                <div class="prompt">A sunken pirate ship rests on a sandy beach surrounded by lush tropical vegetation and towering cliffs under a bright blue sky.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/af952e1f7986f755ec1229bffad0e650397d4fe6bd9c23d1ca1e73aa.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene forest scene featuring a wooden bridge crossing over a small stream, surrounded by lush green trees and vibrant wildflowers under a bright blue sky.</div>
+                            </div>
+                        </div>
+                        <div class="slider-group active" style="grid-template-columns: repeat(3, 1fr);grid-template-rows: auto;">
+                            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/d361ba405c1c7b895f293ddb56c919c6.mov" type="video/mp4"></video>
+                                <div class="prompt">A scenic view of a forested hillside under a clear blue sky.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/e72c7119e6f917b0ab2acf3ca59010df6c042a36b5eef555c0ad3be0.mp4" type="video/mp4"></video>
+                                <div class="prompt">A serene landscape features vibrant hot air balloons floating above a lush green meadow with snow-capped mountains in the background under a bright blue sky.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap" style="position: relative;">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/f9af939cfafdba1edabade7a5c2e3facdf7e05a923abd8e1bb84df43.mp4" type="video/mp4"></video>
+                                <div class="prompt">A wide, open street lined with trees and modern buildings under a partly cloudy sky.</div>
+                            </div>
+                        </div>
+                        <div class="slider-group active" style="grid-template-columns: repeat(3, 1fr);grid-template-rows: auto;">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/5e644b42e540b6f8eb091773ecced6ea.mov" type="video/mp4"></video>
+                                <div class="prompt">A red-cloaked figure rides a white horse past a lakeside castle with domed towers, surrounded by lush greenery and purple flowers.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/ddb62c25d8624c00c342113cc3487217.mov" type="video/mp4"></video>
+                                <div class="prompt">A quaint cottage with a red-tiled roof sits nestled in a vibrant garden filled with colorful flowers and lush greenery.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/history/dfc60205bdd7cec86194ae68b5eb9b5b.mov" type="video/mp4"></video>
+                                <div class="prompt">A medieval stone castle stands tall under a dark sky, its glowing windows contrasting with the surrounding snow-covered landscape.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/aca4fd926dfae0d7bde2b5f804a4cc8e.mov" type="video/mp4"></video>
-                    <div class="prompt">A sunken pirate ship rests on a sandy beach surrounded by lush tropical vegetation and towering cliffs under a bright blue sky.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/af952e1f7986f755ec1229bffad0e650397d4fe6bd9c23d1ca1e73aa.mp4" type="video/mp4"></video>
-                    <div class="prompt">A serene forest scene featuring a wooden bridge crossing over a small stream, surrounded by lush green trees and vibrant wildflowers under a bright blue sky.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/d361ba405c1c7b895f293ddb56c919c6.mov" type="video/mp4"></video>
-                    <div class="prompt">A scenic view of a forested hillside under a clear blue sky.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/e72c7119e6f917b0ab2acf3ca59010df6c042a36b5eef555c0ad3be0.mp4" type="video/mp4"></video>
-                    <div class="prompt">A serene landscape features vibrant hot air balloons floating above a lush green meadow with snow-capped mountains in the background under a bright blue sky.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/history/f9af939cfafdba1edabade7a5c2e3facdf7e05a923abd8e1bb84df43.mp4" type="video/mp4"></video>
-                    <div class="prompt">A wide, open street lined with trees and modern buildings under a partly cloudy sky.</div>
-                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
             </div>
         </section>
 
@@ -1511,27 +1536,27 @@
             <div class="flex flex-dynamic">
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/01.mp4" type="video/mp4"></video>
-                    <div class="prompt">XXXXX</div>
+                    <div class="prompt">A dark, sleek car is driving down a winding road at night, its headlights illuminating the path ahead.</div>
                 </div>
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/02.mp4" type="video/mp4"></video>
-                    <div class="prompt">XXXXX</div>
+                    <div class="prompt">A small sailboat navigates through choppy waters under a vast sky.</div>
                 </div>
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/03.mp4" type="video/mp4"></video>
-                    <div class="prompt">XXXXX</div>
+                    <div class="prompt">A first-person view of a character riding a horse through a dense forest, holding a bow.</div>
                 </div>
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
                     <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/04.mp4" type="video/mp4"></video>
-                    <div class="prompt">XXXXX</div>
+                    <div class="prompt">A blue car drives alone on a foggy two-lane country road through rolling hills, with its red taillights glowing in the mist.</div>
                 </div>
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/04.mp4" type="video/mp4"></video>
-                    <div class="prompt">XXXXX</div>
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/05.mp4" type="video/mp4"></video>
+                    <div class="prompt">A sniper rifle with a mounted scope is aimed across a vast field of dry grass toward distant trees under a partly cloudy sky.</div>
                 </div>
                 <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/04.mp4" type="video/mp4"></video>
-                    <div class="prompt">XXXXX</div>
+                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/third/06.mp4" type="video/mp4"></video>
+                    <div class="prompt">A yellow sports car speeds down a tree-lined two-lane road with white walls under a clear blue sky.</div>
                 </div>
             </div>
         </section>
@@ -1544,35 +1569,57 @@
             <div class="description">
                 The generated results of the model under more applications are shown here to further illustrate the generalizability.
             </div>
-            <div class="flex flex-dynamic">
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong01.mp4" type="video/mp4"></video>
-                    <div class="prompt">A white dog wearing a blue harness runs energetically along a grassy path surrounded by greenery.</div>
+            <div class="slider-container">
+                <button class="slider-nav prev" onclick="slide(-1)">❮</button>
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <!-- Group 1 (First 6 videos) -->
+                        <div class="slider-group active" style="grid-template-columns: repeat(2, 1fr);grid-template-rows: auto;">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/animal01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A giraffe stands gracefully among golden grasses with a lush green forest in the background.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/animal02.mp4" type="video/mp4"></video>
+                                <div class="prompt">A white dog wearing a blue harness runs energetically along a grassy path surrounded by greenery.</div>
+                            </div>
+                        </div>
+                        <div class="slider-group active" style="grid-template-columns: repeat(3, 1fr);grid-template-rows: repeat(1, 1fr);">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/dynamic01.mp4" type="video/mp4"></video>
+                                <div class="prompt">XXX</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/dynamic02.mp4" type="video/mp4"></video>
+                                <div class="prompt">XXX</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/dynamic03.mp4" type="video/mp4"></video>
+                                <div class="prompt">XXX</div>
+                            </div>
+                        </div>
+
+                        <div class="slider-group active" style="grid-template-columns: repeat(3, 1fr);grid-template-rows: auto;">
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/human01.mp4" type="video/mp4"></video>
+                                <div class="prompt">A young girl blows bubbles in a sunny park setting, surrounded by vibrant colors and natural light.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/human02.mp4" type="video/mp4"></video>
+                                <div class="prompt">A young girl in a blue vest blows bubbles in a sunny park, surrounded by trees and a path.</div>
+                            </div>
+                            <div class="prompt-wrap full-screen-wrap">
+                                <video muted autoplay loop playsinline><source src="./assets/videos/application/human03.mp4" type="video/mp4"></video>
+                                <div class="prompt">A man wearing a hat and vest sits on a brick wall, playing a guitar, with a scenic view of trees and buildings in the background.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong02.mp4" type="video/mp4"></video>
-                    <div class="prompt">A young girl in a white dress runs joyfully through a grassy field under a bright blue sky.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong03.mp4" type="video/mp4"></video>
-                    <div class="prompt">A young girl blows bubbles in a sunny park setting, surrounded by vibrant colors and natural light.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong04.mp4" type="video/mp4"></video>
-                    <div class="prompt">A young girl in a blue vest blows bubbles in a sunny park, surrounded by trees and a path.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong05.mp4" type="video/mp4"></video>
-                    <div class="prompt">A man wearing a hat and vest sits on a brick wall, playing a guitar, with a scenic view of trees and buildings in the background.</div>
-                </div>
-                <div class="prompt-wrap full-screen-wrap" style="position: relative;">
-                    <video id="interactive_1" muted autoplay loop playsinline><source src="./assets/videos/application/tongyong07.mp4" type="video/mp4"></video>
-                    <div class="prompt">A man sits on a brick wall, playing a red guitar, with a scenic view of trees and buildings in the background.</div>
-                </div>
+                <button class="slider-nav next" onclick="slide(1)">❯</button>
             </div>
         </section>
 
-        <section class="bibtex-section">
+        <!-- <section class="bibtex-section">
             <h3>BibTeX</h3>
             <pre class="bibtex-code">@misc{li2025hunyuangameindustrialgradeintelligentgame,
     title={Hunyuan-Game: Industrial-grade Intelligent Game Creation Model}, 
@@ -1583,7 +1630,7 @@
     primaryClass={cs.CV},
     url={https://arxiv.org/abs/2505.14135}, 
 }</pre>
-        </section>
+        </section> -->
 
 
 </body>
