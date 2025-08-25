@@ -5,7 +5,7 @@
     <title>Hunyuan-GameCraft</title>
     <meta name="description" content="Hunyuan-GameCraft">
     <meta name="keywords" content="Video Generation, Image Generation, Diffusion Transformer">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
     <meta name="theme-color" content="#9ACBD0">
     <meta property="og:image" content="">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
@@ -189,6 +189,9 @@
             font-family: "Tencent", sans-serif;
             padding: 0;
             margin: 0;
+            /* 为移动设备添加平滑滚动 */
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
         #intro {
@@ -292,6 +295,74 @@
             margin-top: 60px;
             color: #ccc;
         }
+        
+        .bibtex-container {
+            display: inline-block;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .bibtex-container .bibtex-code {
+            text-align: left;
+        }
+        
+        /* BibTeX 复制按钮 */
+        .bibtex-copy-btn {
+            background: rgba(0, 120, 255, 0.9);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .bibtex-copy-btn:hover {
+            background: rgba(0, 140, 255, 1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .bibtex-copy-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bibtex-copy-btn.success {
+            background: rgba(34, 197, 94, 0.9);
+        }
+        
+        /* 移动端 BibTeX 优化 */
+        @media (max-width: 768px) {
+            .bibtex-section {
+                padding: 30px 5%;
+                margin-top: 40px;
+            }
+            
+            .bibtex-container {
+                max-width: 100%;
+            }
+            
+            .bibtex-code {
+                max-width: 100%;
+                margin: 0;
+                font-size: 11px;
+                padding: 12px;
+                border-radius: 8px;
+                position: relative;
+            }
+            
+            .bibtex-copy-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
 
         .bibtex-section h3 {
             font-size: 24px;
@@ -310,6 +381,10 @@
             font-family: monospace;
             max-width: 800px;
             overflow-x: auto;
+            white-space: pre-wrap; /* 支持换行 */
+            word-wrap: break-word; /* 在需要时断行 */
+            word-break: break-all; /* 在长单词处断行 */
+            line-height: 1.6; /* 增加行高以提高可读性 */
         }
 
         section {
@@ -418,6 +493,49 @@
             transition: opacity 0.5s;
             box-sizing: border-box;
         }
+        
+        /* 移动端提示按钮 - 更小更优雅的设计 */
+        .prompt-toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(3px);
+        }
+        
+        .prompt-toggle::before {
+            content: 'ℹ';
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .prompt-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .prompt-toggle.active {
+            background: rgba(0, 120, 255, 0.7);
+            border-color: rgba(0, 120, 255, 0.8);
+        }
+        
+        .prompt-toggle.active::before {
+            content: '✕';
+            font-size: 10px;
+        }
 
         .flex-very-compact .full-screen-button {
             width: 100%;
@@ -469,16 +587,32 @@
             /* 纵向占2行 */
         }
 
-        @media (hover: hover) {
-
+        @media (hover: hover) and (pointer: fine) {
+            /* 只在有鼠标的设备上启用hover效果 */
             .prompt-wrap:hover .prompt,
             .full-screen-wrap:hover .full-screen-button {
                 opacity: 1;
                 pointer-events: all;
             }
+            
+            /* 在有鼠标的设备上隐藏移动端按钮 */
+            .prompt-toggle {
+                display: none !important;
+            }
 
             #contributors a:hover {
                 background-color: #222;
+            }
+        }
+        
+        /* 确保触摸设备上的提示按钮可见 */
+        @media (hover: none) {
+            .prompt-toggle {
+                display: none;
+            }
+            
+            .touch-device .prompt-toggle {
+                display: flex !important;
             }
         }
 
@@ -496,15 +630,42 @@
 
         @media (max-width: 640px) {
             #intro h1 {
-                font-size: 50px;
+                font-size: 40px;
+                line-height: 1.1;
+                margin: 10px 0;
             }
 
             #intro h2 {
-                font-size: 20px;
+                font-size: 18px;
+                line-height: 1.2;
+                margin: 15px 0 30px 0;
             }
 
             .ruler {
                 font-size: 10px;
+            }
+            
+            /* 作者信息在小屏幕上的优化 */
+            #intro .authors-info {
+                max-width: 95% !important;
+                font-size: 0.9em;
+            }
+            
+            #intro .author-row {
+                font-size: 0.9em !important;
+                line-height: 1.3;
+                margin-bottom: 8px !important;
+            }
+            
+            #intro .institutions {
+                font-size: 0.7em !important;
+                line-height: 1.4;
+                margin-bottom: 12px !important;
+            }
+            
+            #intro .author {
+                margin-right: 8px !important;
+                display: inline-block;
             }
         }
 
@@ -521,10 +682,20 @@
 
             .description {
                 padding: 0 12px 20px 12px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            
+            .description-justify {
+                padding: 0 12px 20px 12px;
+                font-size: 16px;
+                line-height: 1.6;
             }
 
             .title {
                 padding: 20px 12px;
+                font-size: 28px;
+                line-height: 1.1;
             }
 
             .ruler-tight {
@@ -534,6 +705,34 @@
 
             .title-long {
                 font-size: 16px;
+            }
+            
+            /* 导航按钮优化 */
+            .button {
+                padding: 12px 20px;
+                margin: 8px 4px;
+                font-size: 16px;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* 视频容器优化 */
+            .prompt {
+                font-size: 12px;
+                padding: 8px 12px;
+                bottom: 10px;
+                left: 8px;
+                max-width: calc(100% - 16px);
+            }
+            
+            /* 滑块导航按钮优化 */
+            .slider-nav {
+                padding: 25px 12px;
+                font-size: 20px;
+                min-width: 50px;
+                min-height: 50px;
             }
 
         }
@@ -695,6 +894,34 @@
             grid-template-areas:
                 "img1 img2 img3"
                 "vid1 vid2 vid3";
+        }
+        
+        /* 移动设备上的内容区域优化 */
+        @media (max-width: 768px) {
+            .content {
+                padding: 0 15px;
+            }
+            
+            section {
+                margin-top: 60px;
+            }
+            
+            .bibtex-section {
+                padding: 25px 10px;
+                margin-top: 35px;
+            }
+            
+            .bibtex-code {
+                padding: 12px;
+                font-size: 11px;
+                max-width: 100%;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                word-break: break-all;
+                line-height: 1.4;
+                overflow-x: visible;
+                margin: 0;
+            }
         }
 
         /* 容器样式 */
@@ -903,6 +1130,93 @@
             flex-shrink: 0;
             padding: 0 10px;
         }
+        
+        /* 移动端纵向轮播样式 */
+        @media (max-width: 768px) {
+            .slider-container {
+                flex-direction: column;
+                padding: 20px 10px;
+                max-width: 100%;
+                position: relative;
+                min-height: 200px; /* 确保有足够空间显示箭头 */
+            }
+            
+            .slider-wrapper {
+                width: 100%;
+                max-height: 70vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+                border-radius: 12px;
+                padding: 0 5px;
+            }
+            
+            .slider-track {
+                flex-direction: column;
+                height: auto;
+                width: 100%;
+                display: block;
+            }
+            
+            .slider-group {
+                display: block;
+                width: 100%;
+                padding: 0;
+                margin-bottom: 25px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding-bottom: 20px;
+            }
+            
+            .slider-group:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            
+            .slider-group .prompt-wrap {
+                margin-bottom: 15px;
+                width: 100%;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            
+            .slider-nav {
+                position: static;
+                margin: 10px 0;
+                align-self: center;
+                display: none; /* 移动端默认隐藏，使用滚动 */
+            }
+            
+            /* 滚动条样式 */
+            .slider-wrapper::-webkit-scrollbar {
+                width: 4px;
+            }
+            
+            .slider-wrapper::-webkit-scrollbar-track {
+                background: rgba(255,255,255,0.1);
+                border-radius: 2px;
+            }
+            
+            .slider-wrapper::-webkit-scrollbar-thumb {
+                background: rgba(255,255,255,0.3);
+                border-radius: 2px;
+            }
+            
+            .slider-wrapper::-webkit-scrollbar-thumb:hover {
+                background: rgba(255,255,255,0.5);
+            }
+            
+
+            
+
+        }
+        
+        /* PC端隐藏下一节按钮 */
+        @media (min-width: 769px) {
+            .next-section-btn {
+                display: none !important;
+            }
+        }
 
         .method-label {
             text-align: center;
@@ -948,15 +1262,40 @@
             right: 0;
         } */
         
-        @media (max-width: 768px) {
+        @media (max-width: 768px) and (min-width: 481px) {
             .slider-group {
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: repeat(3, 1fr);
+                gap: 15px;
+                display: grid;
             }
 
             .slider-nav {
-                padding: 15px 10px;
-                font-size: 18px;
+                padding: 18px 12px;
+                font-size: 20px;
+                min-width: 45px;
+                min-height: 45px;
+            }
+            
+            /* 移动设备上的标题优化 */
+            .title {
+                font-size: 32px;
+                padding: 15px 20px;
+            }
+            
+            /* 内容区域优化 */
+            .description,
+            .description-justify {
+                padding: 0 20px 20px 20px;
+                font-size: 16px;
+                line-height: 1.5;
+            }
+            
+            /* 视频网格优化 */
+            .video-grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+                width: 95%;
             }
         }
 
@@ -985,6 +1324,13 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明遮罩，0.3是透明度，可根据需要调整 */
             z-index: 1; /* 确保遮罩层在视频上方，内容下方 */
+        }
+        
+        /* 移动设备上的视频优化 */
+        @media (max-width: 768px) {
+            #intro video {
+                object-fit: cover; /* 在移动设备上使用cover以获得更好的视觉效果 */
+            }
         }
         
         #intro .content {
@@ -1032,6 +1378,173 @@
             background-color: rgba(0,0,0,0.5);
             padding: 8px 16px;
             border-radius: 20px;
+        }
+        
+        /* 新增：专门针对小屏幕的优化 */
+        @media (max-width: 480px) {
+            #intro h1 {
+                font-size: 32px;
+                margin: 8px 0;
+            }
+            
+            #intro h2 {
+                font-size: 16px;
+                margin: 12px 0 20px 0;
+            }
+            
+            #intro .authors-info {
+                max-width: 98% !important;
+                font-size: 0.85em;
+            }
+            
+            #intro .author-row {
+                font-size: 0.8em !important;
+                margin-bottom: 6px !important;
+            }
+            
+            #intro .institutions {
+                font-size: 0.65em !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .title {
+                font-size: 24px;
+                padding: 15px 10px;
+            }
+            
+            .description,
+            .description-justify {
+                padding: 0 10px 15px 10px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            .slider-group {
+                display: block;
+                gap: 10px;
+            }
+            
+            .slider-group .prompt-wrap {
+                margin-bottom: 12px;
+            }
+            
+            .slider-nav {
+                padding: 20px 8px;
+                font-size: 18px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            
+            .method-label {
+                font-size: 16px;
+                padding: 3px;
+            }
+            
+            .prompt {
+                font-size: 10px;
+                padding: 6px 8px;
+                bottom: 8px;
+                left: 6px;
+                max-width: calc(100% - 12px);
+            }
+            
+            .prompt-toggle {
+                width: 19px;
+                height: 19px;
+                top: 8px;
+                left: 8px;
+            }
+            
+            .prompt-toggle::before {
+                font-size: 9px;
+            }
+            
+            /* 视频容器优化 */
+            .video-comparison-container {
+                width: 95%;
+                margin: 0 auto;
+            }
+            
+            /* flex布局优化 */
+            .flex>div {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .flex-row>div {
+                margin: 2px 0;
+            }
+        }
+        
+        /* 超小屏幕优化 */
+        @media (max-width: 360px) {
+            #intro h1 {
+                font-size: 28px;
+            }
+            
+            #intro h2 {
+                font-size: 14px;
+            }
+            
+            .title {
+                font-size: 20px;
+                padding: 12px 8px;
+            }
+            
+            .description,
+            .description-justify {
+                padding: 0 8px 12px 8px;
+                font-size: 13px;
+            }
+            
+            .button {
+                padding: 10px 16px;
+                font-size: 14px;
+                margin: 6px 2px;
+            }
+            
+            /* 超小屏幕上的内容优化 */
+            .content {
+                padding: 0 8px;
+            }
+            
+            section {
+                margin-top: 40px;
+            }
+            
+            .bibtex-section {
+                padding: 20px 8px;
+                margin-top: 30px;
+            }
+            
+            .bibtex-code {
+                padding: 8px;
+                font-size: 9px;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                word-break: break-all;
+                line-height: 1.3;
+                overflow-x: visible;
+                margin: 0;
+                border-radius: 6px;
+            }
+            
+            .bibtex-copy-btn {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+            
+            /* 超小屏幕上的提示按钮优化 */
+            .prompt-toggle {
+                width: 18px;
+                height: 18px;
+                top: 8px;
+                left: 8px;
+            }
+            
+            .prompt-toggle::before {
+                font-size: 9px;
+            }
         }
     </style>
 </head>
@@ -1667,30 +2180,130 @@
             
             let currentGroup = 0;
             const totalGroups = groups.length;
+            let isMobile = window.innerWidth <= 768;
             
-            // Clone first and last groups for seamless looping
-            const firstClone = groups[0].cloneNode(true);
-            const lastClone = groups[totalGroups-1].cloneNode(true);
-            track.insertBefore(lastClone, groups[0]);
-            track.appendChild(firstClone);
+            // 检测屏幕大小变化
+            function checkMobile() {
+                const wasMobile = isMobile;
+                isMobile = window.innerWidth <= 768;
+                if (wasMobile !== isMobile) {
+                    initSlider();
+                }
+            }
             
-            // Update total groups count
-            const extendedGroups = slider.querySelectorAll('.slider-group');
+            window.addEventListener('resize', checkMobile);
             
-            // Set initial position (showing the real first group)
-            track.style.transform = 'translateX(-100%)';
+            function initSlider() {
+                // 清除之前的克隆
+                const existingClones = track.querySelectorAll('.slider-group[data-clone]');
+                existingClones.forEach(clone => clone.remove());
+                
+                if (isMobile) {
+                    // 移动端：不需要克隆，直接显示所有内容
+                    track.style.transform = 'none';
+                    currentGroup = 0;
+                    
+                    // 隐藏导航按钮（因为移动端使用滚动）
+                    if (prevBtn) prevBtn.style.display = 'none';
+                    if (nextBtn) nextBtn.style.display = 'none';
+                } else {
+                    // PC端：使用原有的横向轮播逻辑
+                    const originalGroups = track.querySelectorAll('.slider-group:not([data-clone])');
+                    const firstClone = originalGroups[0].cloneNode(true);
+                    const lastClone = originalGroups[originalGroups.length-1].cloneNode(true);
+                    
+                    firstClone.setAttribute('data-clone', 'true');
+                    lastClone.setAttribute('data-clone', 'true');
+                    
+                    track.insertBefore(lastClone, originalGroups[0]);
+                    track.appendChild(firstClone);
+                    
+                    track.style.transform = 'translateX(-100%)';
+                    
+                    // 显示导航按钮
+                    if (prevBtn) prevBtn.style.display = 'flex';
+                    if (nextBtn) nextBtn.style.display = 'flex';
+                }
+            }
+            
+            // 初始化轮播
+            initSlider();
             
             function slide(direction) {
-                // Always animate transitions
-                track.style.transition = 'transform 0.5s ease';
+                if (isMobile) {
+                    // 移动端使用滚动而不是轮播
+                    const groupHeight = groups[0] ? groups[0].offsetHeight + 20 : 300;
+                    const wrapper = slider.querySelector('.slider-wrapper');
+                    const currentScroll = wrapper.scrollTop;
+                    const targetScroll = currentScroll + (direction * groupHeight);
+                    
+                    wrapper.scrollTo({
+                        top: targetScroll,
+                        behavior: 'smooth'
+                    });
+                    return;
+                }
                 
+                // PC端横向轮播逻辑
+                track.style.transition = 'transform 0.5s ease';
                 currentGroup += direction;
                 const translateX = -(currentGroup + 1) * 100;
                 track.style.transform = `translateX(${translateX}%)`;
             }
             
-            // Handle transition end for infinite looping
+            // 添加触摸手势支持
+            let startX = 0, startY = 0;
+            let endX = 0, endY = 0;
+            let isScrolling = false;
+            
+            track.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                isScrolling = false;
+            }, { passive: true });
+            
+            track.addEventListener('touchmove', function(e) {
+                if (!isScrolling) {
+                    endX = e.touches[0].clientX;
+                    endY = e.touches[0].clientY;
+                    isScrolling = true;
+                }
+            }, { passive: true });
+            
+            track.addEventListener('touchend', function(e) {
+                if (!isScrolling) return;
+                
+                const threshold = 50; // 滑动阈值
+                
+                if (isMobile) {
+                    // 移动端纵向滑动
+                    const deltaY = startY - endY;
+                    if (Math.abs(deltaY) > threshold) {
+                        if (deltaY > 0) {
+                            slide(1); // 向上滑动，显示下一个
+                        } else {
+                            slide(-1); // 向下滑动，显示上一个
+                        }
+                    }
+                } else {
+                    // PC端横向滑动
+                    const deltaX = startX - endX;
+                    if (Math.abs(deltaX) > threshold) {
+                        if (deltaX > 0) {
+                            slide(1); // 向左滑动，显示下一个
+                        } else {
+                            slide(-1); // 向右滑动，显示上一个
+                        }
+                    }
+                }
+                
+                isScrolling = false;
+            }, { passive: true });
+            
+            // Handle transition end for infinite looping (PC only)
             track.addEventListener('transitionend', function() {
+                if (isMobile) return; // 移动端不需要无限循环
+                
                 // If we've scrolled past the clone of the last group
                 if (currentGroup >= totalGroups) {
                     track.style.transition = 'none';
@@ -1711,6 +2324,9 @@
             });
             
             function updateActiveGroups() {
+                if (isMobile) return; // 移动端不需要active状态
+                
+                const extendedGroups = slider.querySelectorAll('.slider-group');
                 // Remove active class from all groups
                 extendedGroups.forEach(group => group.classList.remove('active'));
                 
@@ -1720,7 +2336,9 @@
                 if (currentGroup >= totalGroups) realIndex = 0;
                 
                 // Set active class to current group
-                extendedGroups[realIndex + 1].classList.add('active');
+                if (extendedGroups[realIndex + 1]) {
+                    extendedGroups[realIndex + 1].classList.add('active');
+                }
             }
             
             // Initialize
@@ -1728,19 +2346,215 @@
             prevBtn.addEventListener('click', () => slide(-1));
             nextBtn.addEventListener('click', () => slide(1));
             
-            // Auto-advance changed to 10 seconds (10000ms)
-            let autoSlideInterval = setInterval(() => slide(1), 10000);
+            // Auto-advance changed to 10 seconds (10000ms) - only for PC
+            let autoSlideInterval;
             
-            // Changed to monitor entire slider-container instead of just wrapper
-            slider.addEventListener('mouseenter', () => {
-                clearInterval(autoSlideInterval);
+            function startAutoSlide() {
+                if (!isMobile) {
+                    autoSlideInterval = setInterval(() => slide(1), 10000);
+                }
+            }
+            
+            function stopAutoSlide() {
+                if (autoSlideInterval) {
+                    clearInterval(autoSlideInterval);
+                }
+            }
+            
+            // PC端自动播放
+            if (!isMobile) {
+                startAutoSlide();
+                
+                slider.addEventListener('mouseenter', stopAutoSlide);
+                slider.addEventListener('mouseleave', startAutoSlide);
+            }
+            
+            // 触摸设备上的交互优化
+            slider.addEventListener('touchstart', stopAutoSlide);
+            slider.addEventListener('touchend', () => {
+                if (!isMobile) startAutoSlide();
             });
             
-            slider.addEventListener('mouseleave', () => {
-                autoSlideInterval = setInterval(() => slide(1), 10000);
+            // 屏幕大小变化时重新设置自动播放
+            window.addEventListener('resize', () => {
+                stopAutoSlide();
+                setTimeout(() => {
+                    if (!isMobile) startAutoSlide();
+                }, 100);
             });
         });
+        
+        // 添加一个全局触摸优化
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+            
+            // 为触摸设备优化按钮大小
+            const style = document.createElement('style');
+            style.textContent = `
+                .touch-device .button {
+                    min-height: 44px;
+                    padding: 12px 20px;
+                }
+                .touch-device .slider-nav {
+                    min-width: 50px;
+                    min-height: 50px;
+                }
+                .touch-device .prompt {
+                    pointer-events: auto;
+                    opacity: 0; /* 移动设备上默认隐藏 */
+                    transform: translateY(10px);
+                    transition: all 0.3s ease;
+                }
+                .touch-device .prompt.show {
+                    opacity: 0.95;
+                    transform: translateY(0);
+                }
+                .touch-device .prompt-toggle {
+                    display: flex !important;
+                }
+                /* 移动设备上的其他优化 */
+                @media (max-width: 768px) {
+                    .touch-device .slider-container {
+                        padding: 0 15px;
+                    }
+                    .touch-device .slider-wrapper {
+                        max-height: 75vh;
+                    }
+                    .touch-device .slider-group {
+                        margin-bottom: 20px;
+                    }
+                    .touch-device .flex {
+                        padding: 0 2px;
+                    }
+                    .touch-device .flex>div {
+                        margin: 3px 0;
+                    }
+                    /* 视频控件优化 */
+                    .touch-device video {
+                        -webkit-playsinline: true;
+                        -webkit-media-controls-fullscreen-button: true;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 为每个prompt-wrap添加提示按钮
+            setTimeout(() => {
+                const promptWraps = document.querySelectorAll('.prompt-wrap');
+                console.log('Found prompt wraps:', promptWraps.length);
+                
+                promptWraps.forEach((wrap, index) => {
+                    const prompt = wrap.querySelector('.prompt');
+                    if (prompt) {
+                        // 检查是否已经有按钮了
+                        if (wrap.querySelector('.prompt-toggle')) {
+                            return; // 已经有按钮了，跳过
+                        }
+                        
+                        // 创建提示按钮
+                        const toggle = document.createElement('div');
+                        toggle.className = 'prompt-toggle';
+                        toggle.setAttribute('aria-label', '显示/隐藏描述');
+                        
+                        console.log('Adding toggle button', index);
+                        
+                        // 添加点击事件
+                        toggle.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            const isShowing = prompt.classList.contains('show');
+                            
+                            console.log('Toggle clicked', isShowing);
+                            
+                            // 关闭其他所有显示的提示
+                            document.querySelectorAll('.prompt.show').forEach(p => {
+                                if (p !== prompt) {
+                                    p.classList.remove('show');
+                                    const otherToggle = p.parentElement.querySelector('.prompt-toggle');
+                                    if (otherToggle) otherToggle.classList.remove('active');
+                                }
+                            });
+                            
+                            if (isShowing) {
+                                prompt.classList.remove('show');
+                                toggle.classList.remove('active');
+                            } else {
+                                prompt.classList.add('show');
+                                toggle.classList.add('active');
+                                
+                                // 5秒后自动隐藏
+                                setTimeout(() => {
+                                    prompt.classList.remove('show');
+                                    toggle.classList.remove('active');
+                                }, 5000);
+                            }
+                        });
+                        
+                        wrap.appendChild(toggle);
+                    }
+                });
+            }, 500);
+        }
+        
+        // BibTeX Copy Function (PC and Mobile)
+        const bibtexCode = document.querySelector('.bibtex-code');
+        
+        if (bibtexCode) {
+            // Create container for better positioning
+            const container = document.createElement('div');
+            container.className = 'bibtex-container';
+            
+            // Create copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'bibtex-copy-btn';
+            copyBtn.textContent = 'Copy BibTeX';
+            
+            // Wrap the code block with container and add button
+            bibtexCode.parentNode.insertBefore(container, bibtexCode);
+            container.appendChild(copyBtn);
+            container.appendChild(bibtexCode);
+            
+            // Copy functionality
+            copyBtn.addEventListener('click', function() {
+                const text = bibtexCode.textContent;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        // Show success state
+                        copyBtn.textContent = 'Copied!';
+                        copyBtn.classList.add('success');
+                        
+                        setTimeout(() => {
+                            copyBtn.textContent = 'Copy BibTeX';
+                            copyBtn.classList.remove('success');
+                        }, 2000);
+                    }).catch(() => {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = text;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        
+                        // Show success state
+                        copyBtn.textContent = 'Copied!';
+                        copyBtn.classList.add('success');
+                        
+                        setTimeout(() => {
+                            copyBtn.textContent = 'Copy BibTeX';
+                            copyBtn.classList.remove('success');
+                        }, 2000);
+                    });
+                }
+            });
+        }
+        
+
     });
+    
+
     
 </script>
 
